@@ -1,9 +1,191 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import { ref, onMounted } from 'vue'
+import HouseCard from '@/components/HouseCard.vue'
+import { getHouses } from '@/api/houses'
+
+const search = ref('')
+const sortBy = ref('price')
+const houses = ref([])
+const loading = ref(true)
+const error = ref(null)
+
+onMounted(async () => {
+  try {
+    houses.value = await getHouses()
+  } catch (e) {
+    error.value = e.message
+    console.error(e)
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="houses-page">
+    <!-- Header -->
+    <div class="header">
+      <h1>Houses</h1>
+
+      <button class="create-btn">
+        + CREATE NEW
+      </button>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="search">
+        <input
+          type="text"
+          placeholder="Search for a house"
+          v-model="search"
+        />
+      </div>
+
+      <div class="toggle">
+        <button
+          :class="{ active: sortBy === 'price' }"
+          @click="sortBy = 'price'"
+        >
+          Price
+        </button>
+        <button
+          :class="{ active: sortBy === 'size' }"
+          @click="sortBy = 'size'"
+        >
+          Size
+        </button>
+      </div>
+    </div>
+
+    <p v-if="loading">Loading...</p>
+    <p v-else-if="error">{{ error }}</p>
+
+    <div v-else class="list">
+      <HouseCard
+        v-for="house in houses"
+        :key="house.id"
+        :house="house"
+      />
+    </div>
+  </div>
 </template>
+
+
+
+<style scoped>
+.houses-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: Inter, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.create-btn {
+  background: #ff5a3c;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.toggle {
+  display: flex;
+  background: #f1f1f1;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.toggle button {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.toggle .active {
+  background: #ff5a3c;
+  color: #fff;
+}
+
+.search input {
+  width: 260px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+/* Cards */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.preview {
+  width: 140px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.info {
+  flex: 1;
+  margin-left: 16px;
+}
+
+.price {
+  font-weight: 600;
+  margin: 4px 0;
+}
+
+.address {
+  color: #888;
+  font-size: 14px;
+}
+
+.meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+</style>
