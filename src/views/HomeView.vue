@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import HouseCard from '@/components/HouseCard.vue'
 import { getHouses } from '@/api/houses'
 
@@ -8,6 +8,39 @@ const sortBy = ref('price')
 const houses = ref([])
 const loading = ref(true)
 const error = ref(null)
+
+// const sortedHouses = computed((housesList = [...houses.value]) => {
+//   return housesList.sort((a,b) => {
+//     if(sortBy.value === "price"){
+//       return a.price - b.price //sorted by increasing price
+//     }else if(sortBy.value === "size"){
+//       return a.size - b.size //sorted by increasing size
+//     }
+//     return 0
+//   })
+//   }
+// )
+
+const preraredHouses = computed(() => {
+  let searchHouses = [];
+  if(search.value.length === 0) searchHouses = [...houses.value]
+  else searchHouses = houses.value.filter((element) =>{
+    return element.location.city.toLowerCase().includes(search.value.toLowerCase()) ||
+            element.location.zip.toLowerCase().includes(search.value.toLowerCase()) ||
+            element.location.street.toLowerCase().includes(search.value.toLowerCase()) ||
+            element.price.toString().startsWith(search.value.toLowerCase()) ||
+            element.size.toString().startsWith(search.value.toLowerCase())
+  })
+  return searchHouses.sort((a,b) => {
+    if(sortBy.value === "price"){
+      return a.price - b.price //sorted by increasing price
+    }else if(sortBy.value === "size"){
+      return a.size - b.size //sorted by increasing size
+    }
+    return 0
+  })
+})
+
 
 onMounted(async () => {
   try {
@@ -63,7 +96,7 @@ onMounted(async () => {
 
     <div v-else class="list">
       <HouseCard
-        v-for="house in houses"
+        v-for="house in preraredHouses"
         :key="house.id"
         :house="house"
       />

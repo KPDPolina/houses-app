@@ -4,7 +4,7 @@
   <div>
     <!--  Header -->
     <header>
-      <!-- Логотип -->
+      <!-- Logo -->
       <router-link to="/" class="logo-link">
         <img src="@/assets/img_logo_dtt@3x.png" alt="Logo" class="logo" />
       </router-link>
