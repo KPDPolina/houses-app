@@ -17,6 +17,10 @@
     router.push({ name: 'HouseDetail', params: { id: props.house.id } })
   }
 
+  const goToEdits = () => {
+    router.push({ name: 'EditHouse', params: { id: props.house.id } })
+  }
+
   const formatPrice = (value) =>
     new Intl.NumberFormat('nl-NL').format(value)
 
@@ -37,7 +41,7 @@
     <img class="preview" :src="house.image" alt="house" />
 
     <div class="info">
-      <h2>{{ house.location.street }} {{ house.location.houseNumber }}</h2>
+      <h2>{{ house.location.street }} {{ house.location.houseNumber }} {{ house.location.houseNumberAddition }}</h2>
 
       <div class="price">
         € {{ formatPrice(house.price) }}
@@ -54,6 +58,7 @@
       </div>
     </div>
     <button v-if="house.madeByMe" @click.stop="deleteMyHouse">X</button>
+    <button v-if="house.madeByMe" @click.stop="goToEdits">0</button>
   </div>
 </template>
 

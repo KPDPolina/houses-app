@@ -33,7 +33,7 @@
 
   const recommendedHouses = computed(() => {
     return housesStore.houses
-      .filter(h => h.id !== Number(route.params.id))
+      .filter(h => h.id !== Number(houseId))
       .slice(0, 3)
   })
 </script>
@@ -47,7 +47,7 @@
       <img class="main-img" :src="house.image" alt="house" />
       
       <div class="info">
-        <h3> {{ house.location.street }} {{ house.location.houseNumber }}</h3>
+        <h3> {{ house.location.street }} {{ house.location.houseNumber }} {{ house.location.houseNumberAddition }}</h3>
 
         <div class="address">
           <img style="height: 14px;" src="../assets/ic_location@3x.png"/> {{ house.location.zip }} {{ house.location.city }}
