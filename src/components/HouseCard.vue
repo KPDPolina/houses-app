@@ -1,5 +1,9 @@
 <script setup>
   import { useRouter } from 'vue-router'
+  import { deleteHouse } from '@/api/houses'
+  import { useHousesStore } from '@/stores/houses'
+
+  const housesStore = useHousesStore()
   const router = useRouter()
 
   const props = defineProps({
@@ -15,6 +19,15 @@
 
   const formatPrice = (value) =>
     new Intl.NumberFormat('nl-NL').format(value)
+
+  const deleteMyHouse = async () => {
+    try {
+    await deleteHouse(props.house.id)   // ждём, пока сервер удалит дом
+    await housesStore.fetchHouses()     // теперь безопасно обновляем стор
+  } catch (error) {
+    console.error('Error duuring deleting:', error)
+  }
+  }
 </script>
 
 
@@ -39,6 +52,7 @@
         <span><img src="../assets/ic_size@3x.png"/> {{ house.size }} m2</span>
       </div>
     </div>
+    <button v-if="house.madeByMe" @click.stop="deleteMyHouse">X</button>
   </div>
 </template>
 

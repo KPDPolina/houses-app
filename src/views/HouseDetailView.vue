@@ -106,10 +106,8 @@
   .recommended-hous{
     padding: 10px;
     margin-bottom: 10px;
-    .info{
-      h2{
-        font-size: 1rem;
-      }
-    }
+  }
+  .recommended-hous .info h2{
+    font-size: 1rem;
   }
 </style>

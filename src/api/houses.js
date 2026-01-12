@@ -47,3 +47,48 @@ export async function getHouse(id) {
     throw error
   }
 }
+
+export async function postHouse(formdata) {
+  try{
+    const response = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: {
+        "X-Api-Key": API_KEY
+      },
+      body: formdata,
+    })
+
+    if (!response.ok) {
+      const text = await response.text()
+      console.error('API response:', text)
+      throw new Error('API error')
+    }
+
+    return response.json()
+  }catch (error) {
+    console.error('Fetch error:', error)
+    throw error
+  }
+}
+
+export async function deleteHouse(id) {
+  try{
+    const response = await fetch(BASE_URL + "/" + id, {
+      method: 'DELETE',
+      headers: {
+        "X-Api-Key": API_KEY
+      },
+
+    })
+    if (!response.ok) {
+      const text = await response.text()
+      console.error('API response:', text)
+      throw new Error('API error')
+    }
+
+    return true
+  }catch (error){
+    console.error('Fetch error:', error);
+    throw error
+  }
+}
