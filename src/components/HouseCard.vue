@@ -1,18 +1,25 @@
 <script setup>
-defineProps({
-  house: {
-    type: Object,
-    required: true,
-  },
-})
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
-const formatPrice = (value) =>
-  new Intl.NumberFormat('nl-NL').format(value)
+  const props = defineProps({
+    house: {
+      type: Object,
+      required: true,
+    },
+  })
+  
+  const goToDetails = () => {
+  router.push({ name: 'HouseDetail', params: { id: props.house.id } })
+}
+
+  const formatPrice = (value) =>
+    new Intl.NumberFormat('nl-NL').format(value)
 </script>
 
 
 <template>
-  <div class="card">
+  <div class="card" @click="goToDetails">
     <img class="preview" :src="house.image" alt="house" />
 
     <div class="info">

@@ -23,3 +23,27 @@ export async function getHouses() {
     throw error
   }
 }
+
+
+export async function getHouse(id) {
+  try {
+    const response = await fetch(BASE_URL + "/" + id, {
+      method: 'GET',
+      headers: {
+        'X-Api-Key': API_KEY,
+        'Accept': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const text = await response.text()
+      console.error('API response:', text)
+      throw new Error('API error')
+    }
+
+    return response.json()
+  } catch (error) {
+    console.error('Fetch error:', error)
+    throw error
+  }
+}

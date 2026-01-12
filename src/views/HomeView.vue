@@ -1,30 +1,21 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import HouseCard from '@/components/HouseCard.vue'
-import { getHouses } from '@/api/houses'
+import { useHousesStore } from '@/stores/houses'
+// import { getHouses } from '@/api/houses'
+
 
 const search = ref('')
 const sortBy = ref('price')
-const houses = ref([])
+// const houses = ref([])
 const loading = ref(true)
 const error = ref(null)
-
-// const sortedHouses = computed((housesList = [...houses.value]) => {
-//   return housesList.sort((a,b) => {
-//     if(sortBy.value === "price"){
-//       return a.price - b.price //sorted by increasing price
-//     }else if(sortBy.value === "size"){
-//       return a.size - b.size //sorted by increasing size
-//     }
-//     return 0
-//   })
-//   }
-// )
+const housesStore = useHousesStore()
 
 const preraredHouses = computed(() => {
   let searchHouses = [];
-  if(search.value.length === 0) searchHouses = [...houses.value]
-  else searchHouses = houses.value.filter((element) =>{
+  if(search.value.length === 0) searchHouses = [...housesStore.houses]
+  else searchHouses = housesStore.houses.filter((element) =>{
     return element.location.city.toLowerCase().includes(search.value.toLowerCase()) ||
             element.location.zip.toLowerCase().includes(search.value.toLowerCase()) ||
             element.location.street.toLowerCase().includes(search.value.toLowerCase()) ||
@@ -44,7 +35,10 @@ const preraredHouses = computed(() => {
 
 onMounted(async () => {
   try {
-    houses.value = await getHouses()
+    // houses.value = await getHouses()
+    housesStore.fetchHouses()
+    // console.log("housesStore.fetchHouses", housesStore.houses);
+    
   } catch (e) {
     error.value = e.message
     console.error(e)
@@ -60,9 +54,10 @@ onMounted(async () => {
     <div class="header">
       <h1>Houses</h1>
 
-      <button class="create-btn">
-        + CREATE NEW
-      </button>
+      <!-- <button class="create-btn"> -->
+        <!-- + CREATE NEW
+      </button> -->
+      <router-link to="/houses/create" class="create-btn">+ CREATE NEW</router-link>
     </div>
 
     <!-- Controls -->
@@ -95,7 +90,11 @@ onMounted(async () => {
     <p v-else-if="error">{{ error }}</p>
 
     <div v-else class="list">
-      <HouseCard
+      <div v-if="preraredHouses.length === 0" class="empty-result">
+        <img style="width: 25rem; padding-bottom: 0.5rem;" src="../assets/img_empty_houses@3x.png"/>
+        Nothing here
+      </div>
+      <HouseCard v-else
         v-for="house in preraredHouses"
         :key="house.id"
         :house="house"
@@ -121,6 +120,7 @@ onMounted(async () => {
 }
 
 .create-btn {
+  text-decoration: none;
   background: #ff5a3c;
   color: white;
   border: none;
@@ -220,5 +220,12 @@ onMounted(async () => {
   border: none;
   cursor: pointer;
   font-size: 16px;
+}
+
+.empty-result{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6rem;
 }
 </style>
