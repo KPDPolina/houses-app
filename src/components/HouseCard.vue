@@ -14,19 +14,20 @@
   })
   
   const goToDetails = () => {
-  router.push({ name: 'HouseDetail', params: { id: props.house.id } })
-}
+    router.push({ name: 'HouseDetail', params: { id: props.house.id } })
+  }
 
   const formatPrice = (value) =>
     new Intl.NumberFormat('nl-NL').format(value)
 
   const deleteMyHouse = async () => {
     try {
-    await deleteHouse(props.house.id)   // ждём, пока сервер удалит дом
-    await housesStore.fetchHouses()     // теперь безопасно обновляем стор
-  } catch (error) {
-    console.error('Error duuring deleting:', error)
-  }
+      await deleteHouse(props.house.id)   // ждём, пока сервер удалит дом
+      housesStore.loaded = false // сбросс флага
+      await housesStore.fetchHouses()     //  обновляем стор
+    } catch (error) {
+      console.error('Error duuring deleting:', error)
+    }
   }
 </script>
 

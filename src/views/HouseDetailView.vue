@@ -41,7 +41,7 @@
 
 
 <template>
-  <button class="back" @click="router.go(-1)">Back to overview</button>
+  <button class="back" @click="router.push({ name: 'Home' })">Back to overview</button>
   <div class="content">
     <div v-for="house in currentHouses" class="house-details" :key="house.id">
       <img class="main-img" :src="house.image" alt="house" />

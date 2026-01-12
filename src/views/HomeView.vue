@@ -36,7 +36,7 @@ const preraredHouses = computed(() => {
 onMounted(async () => {
   try {
     // houses.value = await getHouses()
-    housesStore.fetchHouses()
+    await housesStore.fetchHouses()
     // console.log("housesStore.fetchHouses", housesStore.houses);
     
   } catch (e) {

@@ -1,44 +1,55 @@
 <script setup>
-import { ref } from 'vue'
-import { postHouse } from '@/api/houses'
+  import { ref } from 'vue'
+  import { postHouse } from '@/api/houses'
+  import { useRouter } from 'vue-router'
+  import { useHousesStore } from '@/stores/houses'
 
-const form = ref({
-  price: '',
-  bedrooms: '',
-  bathrooms: '',
-  size: '',
-  streetName : '',
-  houseNumber: '',
-  numberAddition : '',
-  zip : '',
-  city : '',
-  constructionYear : '',
-  hasGarage: '',
-  description : '',
-})
+  const housesStore = useHousesStore()
+  const router = useRouter()
 
-// const image = ref({})
+  const form = ref({
+    price: '',
+    bedrooms: '',
+    bathrooms: '',
+    size: '',
+    streetName : '',
+    houseNumber: '',
+    numberAddition : '',
+    zip : '',
+    city : '',
+    constructionYear : '',
+    hasGarage: '',
+    description : '',
+  })
 
+  // const image = ref({})
 
+  const createHouse = async () => {
+    const formdata = new FormData();
+    formdata.append("price", form.value.price);
+    formdata.append("bedrooms", form.value.bedrooms);
+    formdata.append("bathrooms", form.value.bathrooms);
+    formdata.append("size", form.value.size);
+    formdata.append("streetName", form.value.streetName);
+    formdata.append("houseNumber", form.value.houseNumber);
+    formdata.append("numberAddition", form.value.numberAddition);
+    formdata.append("zip", form.value.zip);
+    formdata.append("city", form.value.city);
+    formdata.append("constructionYear", form.value.constructionYear);
+    formdata.append("hasGarage", form.value.hasGarage);
+    formdata.append("description", form.value.description);
+    console.log(formdata);
+    try{
+      const newHouse = await postHouse(formdata)
+      housesStore.loaded = false // сбросс флага
+      await housesStore.fetchHouses()     //  обновляем стор
+      
+      router.push({ name: 'HouseDetail', params: { id: newHouse.id } })
+    } catch (error) {
+      console.error("Ошибка создания дома:", error)
+    }
+  }
 
-const createHouse = () => {
-  const formdata = new FormData();
-  formdata.append("price", form.value.price);
-  formdata.append("bedrooms", form.value.bedrooms);
-  formdata.append("bathrooms", form.value.bathrooms);
-  formdata.append("size", form.value.size);
-  formdata.append("streetName", form.value.streetName);
-  formdata.append("houseNumber", form.value.houseNumber);
-  formdata.append("numberAddition", form.value.numberAddition);
-  formdata.append("zip", form.value.zip);
-  formdata.append("city", form.value.city);
-  formdata.append("constructionYear", form.value.constructionYear);
-  formdata.append("hasGarage", form.value.hasGarage);
-  formdata.append("description", form.value.description);
-  console.log(formdata);
-  
-  postHouse(formdata)
-}
 
 </script>
 
