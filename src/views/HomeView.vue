@@ -51,12 +51,8 @@ onMounted(async () => {
 <template>
   <div class="houses-page">
     <!-- Header -->
-    <div class="header">
+    <div class="houses-header">
       <h1>Houses</h1>
-
-      <!-- <button class="create-btn"> -->
-        <!-- + CREATE NEW
-      </button> -->
       <router-link to="/houses/create" class="create-btn">+ CREATE NEW</router-link>
     </div>
 
@@ -88,19 +84,24 @@ onMounted(async () => {
 
     <p v-if="loading">Loading...</p>
     <p v-else-if="error">{{ error }}</p>
+    
 
     <div v-else class="list">
+      
       <div v-if="preraredHouses.length === 0" class="empty-result">
         <img style="width: 25rem; padding-bottom: 0.5rem;" src="../assets/img_empty_houses@3x.png"/>
         No results found.
         <br/>
         Please try another keyword.
       </div>
-      <HouseCard v-else
+      <div v-else-if="preraredHouses.length>0">
+        <h3>{{preraredHouses.length}} results found</h3>
+      <HouseCard
         v-for="house in preraredHouses"
         :key="house.id"
         :house="house"
       />
+      </div>
     </div>
   </div>
 
@@ -110,14 +111,8 @@ onMounted(async () => {
 
 
 <style scoped>
-.houses-page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px;
-  font-family: Inter, sans-serif;
-}
 
-.header {
+.houses-header {
   display: flex;
   justify-content: space-between;
   align-items: center;

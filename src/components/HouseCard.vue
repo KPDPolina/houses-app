@@ -1,7 +1,9 @@
 <script setup>
+  import { ref } from 'vue'
   import { useRouter } from 'vue-router'
   import { deleteHouse } from '@/api/houses'
   import { useHousesStore } from '@/stores/houses'
+  import DeleteModal from '@/components/DeleteModal.vue'
 
   const housesStore = useHousesStore()
   const router = useRouter()
@@ -13,8 +15,8 @@
     },
   })
   
-  const goToDetails = () => {
-    router.push({ name: 'HouseDetail', params: { id: props.house.id } })
+  const goToDetails = (id) => {
+    router.push({ name: 'HouseDetail', params: { id: id } })
   }
 
   const goToEdits = () => {
@@ -24,20 +26,31 @@
   const formatPrice = (value) =>
     new Intl.NumberFormat('nl-NL').format(value)
 
-  const deleteMyHouse = async () => {
+  const showDeleteModal = ref(false) 
+  const confirmDelete = () => {
+    showDeleteModal.value = true         // open modal
+  }
+
+  const hideDeleteModal = () => {
+    showDeleteModal.value = false          // close modal
+  }
+
+  const deleteHouseConfirmed = async () => {
     try {
-      await deleteHouse(props.house.id)   // ждём, пока сервер удалит дом
-      housesStore.loaded = false // сбросс флага
-      await housesStore.fetchHouses()     //  обновляем стор
+        await deleteHouse(props.house.id)   
+        housesStore.loaded = false
+        await housesStore.fetchHouses()
+        showDeleteModal.value = false      // close modal
+        // router.push({ name: 'Home' })
     } catch (error) {
-      console.error('Error duuring deleting:', error)
+        console.error('Error during deleting:', error)
     }
   }
 </script>
 
 
 <template>
-  <div class="card" @click="goToDetails">
+  <div class="card" @click="goToDetails(house.id)">
     <img class="preview" :src="house.image" alt="house" />
 
     <div class="info">
@@ -57,9 +70,16 @@
         <span><img src="../assets/ic_size@3x.png"/> {{ house.size }} m2</span>
       </div>
     </div>
-    <button v-if="house.madeByMe" @click.stop="deleteMyHouse">X</button>
+    <button v-if="house.madeByMe" @click.stop="confirmDelete">X</button>
     <button v-if="house.madeByMe" @click.stop="goToEdits">0</button>
   </div>
+
+  <DeleteModal 
+  :showDeleteModal="showDeleteModal"
+  @cancelDelete="hideDeleteModal"
+  @confirmDelete="deleteHouseConfirmed"
+  />
+  
 </template>
 
 <style scoped>
