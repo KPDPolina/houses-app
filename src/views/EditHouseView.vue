@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import HouseForm from '@/components/HouseForm.vue'
-import { getHouse, editHouse } from '@/api/houses'
+import { getHouse, editHouse, uploadImg } from '@/api/houses'
 import { useRoute, useRouter } from 'vue-router'
 import { useHousesStore } from '@/stores/houses'
 
@@ -11,6 +11,11 @@ const housesStore = useHousesStore()
 
 const form = ref({})
 const houseId = route.params.id
+const image = ref(null)
+
+const onImageSelected = (file) => {
+  image.value = file
+}
 
 onMounted(async () => {
   const houses = await getHouse(houseId)
@@ -33,11 +38,16 @@ onMounted(async () => {
 
 const updateHouse = async () => {
   const formData = new FormData()
+  const formImg = new FormData()
   Object.entries(form.value).forEach(([key, value]) =>
     formData.append(key, value)
   )
 
   await editHouse(formData, houseId)
+  if (image.value) {
+    formImg.append('image', image.value)
+    await uploadImg(formImg, houseId)
+  }
   housesStore.loaded = false
   await housesStore.fetchHouses()
 
@@ -53,6 +63,7 @@ const updateHouse = async () => {
       v-model="form"
       submit-label="SAVE"
       @submit="updateHouse"
+      @image-selected="onImageSelected"
     />
   </div>
 </template>

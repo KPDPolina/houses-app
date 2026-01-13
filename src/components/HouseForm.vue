@@ -12,8 +12,15 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'submit'])
 
+const emit = defineEmits(['update:modelValue', 'submit', 'image-selected'])
+
+const onFileChange = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    emit('image-selected', file)
+  }
+}
 // локальная копия формы
 const form = reactive({ ...props.modelValue })
 
@@ -56,6 +63,9 @@ const onSubmit = () => {
 
     <label for="city">City</label>
     <input id="city" v-model="form.city" placeholder="e.g. Utrecht" required />
+
+    <label for="image">Upload picture (PNG or JPG)</label>
+    <input id="image" @change="onFileChange" type="file" accept="image/png, image/jpeg"/>
 
     <label for="price">Price</label>
     <input id="price" type="number" v-model="form.price" placeholder="e.g. €150.000" required />

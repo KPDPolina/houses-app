@@ -92,7 +92,9 @@ onMounted(async () => {
     <div v-else class="list">
       <div v-if="preraredHouses.length === 0" class="empty-result">
         <img style="width: 25rem; padding-bottom: 0.5rem;" src="../assets/img_empty_houses@3x.png"/>
-        Nothing here
+        No results found.
+        <br/>
+        Please try another keyword.
       </div>
       <HouseCard v-else
         v-for="house in preraredHouses"
@@ -101,6 +103,8 @@ onMounted(async () => {
       />
     </div>
   </div>
+
+  
 </template>
 
 

@@ -116,3 +116,25 @@ export async function deleteHouse(id) {
     throw error
   }
 }
+
+
+export async function uploadImg(formatImg, id) {
+  try{
+    const response = await fetch(BASE_URL + "/" + id + "/upload", {
+      method: 'POST',
+      headers: {"X-Api-Key": API_KEY},
+      body: formatImg
+    })
+
+    if (!response.ok) {
+      const text = await response.text()
+      console.error('API response:', text)
+      throw new Error('API error')
+    }
+    
+    return true
+  }catch (error){
+    console.log('Fetch error:', error);
+    throw error
+  }
+}

@@ -1,13 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 import HouseForm from '@/components/HouseForm.vue'
-import { postHouse } from '@/api/houses'
+import { postHouse, uploadImg } from '@/api/houses'
 import { useRouter } from 'vue-router'
 import { useHousesStore } from '@/stores/houses'
 
 const router = useRouter()
 const housesStore = useHousesStore()
 
+const image = ref(null)
 const form = ref({
   price: '',
   bedrooms: '',
@@ -22,14 +23,21 @@ const form = ref({
   hasGarage: '',
   description: '',
 })
+const onImageSelected = (file) => {
+  image.value = file
+}
 
 const createHouse = async () => {
   const formData = new FormData()
+  const formImg = new FormData()
   Object.entries(form.value).forEach(([key, value]) =>
     formData.append(key, value)
   )
-
   const newHouse = await postHouse(formData)
+  if (image.value) {
+    formImg.append('image', image.value)
+    await uploadImg(formImg, newHouse.id)
+  }
   housesStore.loaded = false
   await housesStore.fetchHouses()
 
@@ -45,6 +53,7 @@ const createHouse = async () => {
       v-model="form"
       submit-label="POST"
       @submit="createHouse"
+      @image-selected="onImageSelected"
     />
   </div>
 </template>
