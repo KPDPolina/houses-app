@@ -70,8 +70,8 @@
         <span><img src="../assets/ic_size@3x.png"/> {{ house.size }} m2</span>
       </div>
     </div>
-    <button v-if="house.madeByMe" @click.stop="confirmDelete">X</button>
-    <button v-if="house.madeByMe" @click.stop="goToEdits">0</button>
+    <img class="my-house-actions" src="../assets/ic_edit@3x.png" v-if="house.madeByMe" @click.stop="goToEdits"/>
+    <img class="my-house-actions" src="../assets/ic_delete@3x.png" v-if="house.madeByMe" @click.stop="confirmDelete"/>
   </div>
 
   <DeleteModal 
@@ -83,30 +83,39 @@
 </template>
 
 <style scoped>
+
 .card {
   display: flex;
-  align-items: center;
+  align-items: start;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  cursor: pointer;
 }
 
 .preview {
-  width: 140px;
-  height: 100px;
-  object-fit: cover;
+  width: 9rem;
+  height: 9rem;
+  object-fit:cover;
   border-radius: 8px;
 }
 
 .info {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   margin-left: 16px;
+  gap: 0.3rem;
+}
+
+.info h2{
+  margin-bottom: 0.2rem;
+  margin-top: 0.5rem;
 }
 
 .price {
   font-weight: 600;
-  margin: 4px 0;
 }
 
 .address {
@@ -136,5 +145,11 @@
   border: none;
   cursor: pointer;
   font-size: 16px;
+}
+
+.my-house-actions{
+  height: 1.1rem;
+  margin: 0.4rem;
+  cursor: pointer;
 }
 </style>

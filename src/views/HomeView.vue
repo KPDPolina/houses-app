@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import HouseCard from '@/components/HouseCard.vue'
 import { useHousesStore } from '@/stores/houses'
 // import { getHouses } from '@/api/houses'
+import '../assets/base.css'
 
 
 const search = ref('')
@@ -59,10 +60,19 @@ onMounted(async () => {
     <!-- Controls -->
     <div class="controls">
       <div class="search">
+        <img src="../assets/ic_search@3x.png" class="search-icon"/>
+
         <input
           type="text"
           placeholder="Search for a house"
           v-model="search"
+        />
+
+        <img
+          v-if="search.length"
+          src="../assets/ic_clear@3x.png"
+          class="clear-btn"
+          @click="search = ''"
         />
       </div>
 
@@ -86,22 +96,24 @@ onMounted(async () => {
     <p v-else-if="error">{{ error }}</p>
     
 
-    <div v-else class="list">
+    <div v-else >
       
       <div v-if="preraredHouses.length === 0" class="empty-result">
         <img style="width: 25rem; padding-bottom: 0.5rem;" src="../assets/img_empty_houses@3x.png"/>
-        No results found.
+          No results found.
         <br/>
-        Please try another keyword.
+          Please try another keyword.
       </div>
-      <div v-else-if="preraredHouses.length>0">
-        <h3>{{preraredHouses.length}} results found</h3>
-      <HouseCard
-        v-for="house in preraredHouses"
-        :key="house.id"
-        :house="house"
-      />
+
+      <h3 v-else-if="preraredHouses.length>0 && search.length!=0">{{preraredHouses.length}} results found</h3>
+      <div class="list">
+        <HouseCard
+          v-for="house in preraredHouses"
+          :key="house.id"
+          :house="house"
+        />
       </div>
+
     </div>
   </div>
 
@@ -118,12 +130,52 @@ onMounted(async () => {
   align-items: center;
 }
 
+.search {
+  position: relative;
+}
+
+.search input {
+  font-family: var(--font-primary);
+  width: 19rem;
+  padding: 0.8rem 3rem 0.8rem 3.5rem;
+  border-radius: 10px;
+  border: none;
+  color: var(--color-text-secondary);
+  background-color: var(--color-element-tertiary-light);
+  outline: none;
+}
+
+.search input::placeholder {
+  font-family: var(--font-primary);
+  color: var(--color-element-tertiary-dark);
+  left: 0.8rem;
+}
+
+.search-icon {
+  position: absolute;
+  height: 1.1rem;
+  left: 1.3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+  pointer-events: none;
+}
+
+.clear-btn {
+  height: 1.3rem;
+  position: absolute;
+  right: 10px;
+  top: 25%;
+  cursor: pointer;
+}
+
+
 .create-btn {
   text-decoration: none;
-  background: #ff5a3c;
+  background: var(--color-element-primary);
   color: white;
   border: none;
-  padding: 10px 16px;
+  padding: 0.6rem 1.5rem;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
@@ -132,34 +184,27 @@ onMounted(async () => {
 .controls {
   display: flex;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: 0.8rem 0 2rem 0;
 }
 
 .toggle {
   display: flex;
-  background: #f1f1f1;
+  background: var(--color-element-tertiary-dark);
   border-radius: 6px;
   overflow: hidden;
 }
 
 .toggle button {
-  padding: 8px 16px;
+  padding: 0.5rem 3rem;
   border: none;
   background: transparent;
   cursor: pointer;
   font-weight: 500;
-}
-
-.toggle .active {
-  background: #ff5a3c;
   color: #fff;
 }
 
-.search input {
-  width: 260px;
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
+.toggle .active {
+  background: var(--color-element-primary);
 }
 
 /* Cards */
@@ -167,45 +212,6 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.card {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.preview {
-  width: 140px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.info {
-  flex: 1;
-  margin-left: 16px;
-}
-
-.price {
-  font-weight: 600;
-  margin: 4px 0;
-}
-
-.address {
-  color: #888;
-  font-size: 14px;
-}
-
-.meta {
-  display: flex;
-  gap: 12px;
-  margin-top: 8px;
-  font-size: 14px;
-  color: #555;
 }
 
 /* Actions */
