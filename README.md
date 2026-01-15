@@ -25,12 +25,6 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 npm install
 ```
 
-### .env Setup
-
-```sh
-VITE_HOUSES_API_KEY="YOUR_KEY"
-```
-
 ### Compile and Hot-Reload for Development
 
 ```sh
