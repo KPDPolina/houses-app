@@ -52,7 +52,7 @@ const createHouse = async () => {
     <div class="back-btn">
       <img src="../assets/ic_back_grey@3x.png" class="back" @click="router.push({ name: 'Home' })"/>
       <h4>Back to overview</h4>
-      <h1 class="mobile">Edit listing</h1>
+      <h1 class="mobile">Create listing</h1>
     </div>
 
     <HouseForm
@@ -106,6 +106,7 @@ const createHouse = async () => {
 @media screen and (max-width: 431px) {
   .create-page{
     width: 100vw;
+    margin-right: 0;
   }
   .create-page .default{
     display: none;
@@ -117,5 +118,33 @@ const createHouse = async () => {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
+
+  
+.create-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/img_placeholder_house@3x.png');
+  background-position: left bottom;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: blur(5px);
+  z-index: -2;
+  margin-bottom: -7vh;
+}
+
+.create-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(
+    145deg,
+    var(--color-element-background-1) 50%,
+    rgba(255,255,255,0.85) 70%,
+    rgba(255,255,255,0) 85%
+  );
+  z-index: -1;
+}
 }
 </style>

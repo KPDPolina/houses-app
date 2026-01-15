@@ -126,6 +126,7 @@ const updateHouse = async () => {
 @media screen and (max-width: 431px) {
   .edit-page{
     width: 100vw;
+    margin-right: 0;
   }
   .edit-page .default{
     display: none;
@@ -136,6 +137,33 @@ const updateHouse = async () => {
     gap: 30%;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+  }
+    
+  .edit-page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('../assets/img_placeholder_house@3x.png');
+    background-position: left bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: blur(5px);
+    z-index: -2;
+    /* margin-bottom: -7vh; */
+  }
+
+  .edit-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(
+      145deg,
+      var(--color-element-background-1) 50%,
+      rgba(255,255,255,0.85) 70%,
+      rgba(255,255,255,0) 85%
+    );
+    z-index: -1;
   }
 }
 </style>
