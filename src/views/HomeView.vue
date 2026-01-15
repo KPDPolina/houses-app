@@ -54,7 +54,14 @@ onMounted(async () => {
     <!-- Header -->
     <div class="houses-header">
       <h1>Houses</h1>
-      <router-link to="/houses/create" class="create-btn">+ CREATE NEW</router-link>
+      <router-link to="/houses/create" class="create-area">
+        <span class="create-btn">+ CREATE NEW</span>
+        <img
+          src="../assets/ic_plus_grey@3x.png"
+          alt="Create"
+          class="create-icon"
+        />
+      </router-link>
     </div>
 
     <!-- Controls -->
@@ -100,9 +107,8 @@ onMounted(async () => {
       
       <div v-if="preraredHouses.length === 0" class="empty-result">
         <img style="width: 25rem; padding-bottom: 0.5rem;" src="../assets/img_empty_houses@3x.png"/>
-          No results found.
-        <br/>
-          Please try another keyword.
+        <span>No results found.</span>
+        <span>Please try another keyword.</span>
       </div>
 
       <h3 v-else-if="preraredHouses.length>0 && search.length!=0">{{preraredHouses.length}} results found</h3>
@@ -130,13 +136,33 @@ onMounted(async () => {
   align-items: center;
 }
 
+
+.create-area{
+  text-decoration: none;
+}
+
+.create-area .create-btn {
+  background: var(--color-element-primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.create-area .create-icon{
+  display: none;
+}
+
 .search {
   position: relative;
+  width: 22rem;
 }
 
 .search input {
   font-family: var(--font-primary);
-  width: 19rem;
+  width: 100%;
   padding: 0.8rem 3rem 0.8rem 3.5rem;
   border-radius: 10px;
   border: none;
@@ -169,17 +195,6 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-
-.create-btn {
-  text-decoration: none;
-  background: var(--color-element-primary);
-  color: white;
-  border: none;
-  padding: 0.6rem 1.5rem;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-}
 
 .controls {
   display: flex;
@@ -232,5 +247,44 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   padding-top: 6rem;
+  color: var(--color-text-secondary);
+}
+
+
+@media screen and (max-width: 431px) {
+  .houses-page{
+    width: 100%;
+  }
+
+  .houses-header{
+    justify-content: flex-end;
+    gap: 35%;
+  }
+
+  .create-area .create-btn {
+    display: none;
+  }
+
+  .create-area .create-icon {
+    display: block;
+    height: 1.5rem;
+  }
+
+  .controls{
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .controls .search{
+    width: 100%;
+  }
+  .controls .search input{
+    padding: 0.8rem 2rem 0.8rem 3.5rem;
+  }
+  .controls .toggle{
+    width: 100%;
+  }
+  .controls .toggle button{
+    width: 50%;
+  }
 }
 </style>

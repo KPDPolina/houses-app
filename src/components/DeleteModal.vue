@@ -22,7 +22,7 @@
 <template>
   <div v-if="props.showDeleteModal" class="modal-overlay">
     <div class="modal">
-      <h2>Delete listing</h2>
+      <h1>Delete listing</h1>
       <div class="modal-message">
         <p>Are you sure you want to delete this listing?</p>
         <p>This action cannot be undone.</p>
@@ -87,5 +87,19 @@
   }
   .reject-btn{
     background-color: var(--color-element-secondary);
+  }
+
+  @media screen and (max-width: 431px) {
+    .modal{
+      width: 90vw;
+      font-size: 13px;
+    }
+    .modal .modal-message{
+      margin-bottom: 1rem;
+    }
+    .modal button{
+      margin: 0.3rem 0;
+      padding: 0.6rem;
+    }
   }
 </style>

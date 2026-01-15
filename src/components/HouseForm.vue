@@ -428,4 +428,19 @@ select.error::placeholder {
   font-size: 12px;
   margin-top: 4px;
 }
+
+@media screen and (max-width: 431px) {
+  form{
+    width: 100vw;
+    padding: 0 2.5rem;
+  }
+  form .area{
+    width: auto;
+  }
+  form .btn-submit button{
+    width: 100%;
+  }
+
+}
+
 </style>

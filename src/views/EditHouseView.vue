@@ -1,9 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import HouseForm from '@/components/HouseForm.vue'
 import { getHouse, editHouse, uploadImg } from '@/api/houses'
 import { useRoute, useRouter } from 'vue-router'
 import { useHousesStore } from '@/stores/houses'
+
+onMounted(() => {
+  document.body.classList.add('edit-page-bg')
+})
+
+onUnmounted(() => {
+  document.body.classList.remove('edit-page-bg')
+})
 
 const route = useRoute()
 const router = useRouter()
@@ -57,11 +65,12 @@ const updateHouse = async () => {
 
 <template>
   <div class="edit-page">
-    <h1>Edit listing</h1>
+    <h1 class="default">Edit listing</h1>
 
     <div class="back-btn">
       <img src="../assets/ic_back_grey@3x.png" class="back" @click="router.push({ name: 'HouseDetail', params: { id: houseId } })"/>
       <h4>Back to detail page</h4>
+      <h1 class="mobile">Edit listing</h1>
     </div>
 
     <HouseForm
@@ -74,8 +83,59 @@ const updateHouse = async () => {
 </template>
 
 <style>
+
+.edit-page{
+  position: relative;
+  min-height: 100vh;
+  margin-right: -16vw;
+}
+
+.edit-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/img_placeholder_house@3x.png');
+  background-position: left top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(18px);
+  z-index: -2;
+}
+
+
+.edit-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(
+    135deg,
+    var(--color-element-background-1) 50%,
+    rgba(255,255,255,0.85) 55%,
+    rgba(255,255,255,0) 85%
+  );
+  z-index: -1;
+}
+
 .edit-page form{
   display: flex;
   flex-direction: column;
+}
+
+
+@media screen and (max-width: 431px) {
+  .edit-page{
+    width: 100vw;
+  }
+  .edit-page .default{
+    display: none;
+  }
+  .edit-page .back-btn{
+    position: initial;
+    justify-content: start;
+    gap: 30%;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 </style>

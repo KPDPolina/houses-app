@@ -47,11 +47,12 @@ const createHouse = async () => {
 
 <template>
   <div class="create-page">
-    <h1>Create new listing</h1>
+    <h1 class="default">Create new listing</h1>
 
     <div class="back-btn">
       <img src="../assets/ic_back_grey@3x.png" class="back" @click="router.push({ name: 'Home' })"/>
       <h4>Back to overview</h4>
+      <h1 class="mobile">Edit listing</h1>
     </div>
 
     <HouseForm
@@ -67,5 +68,54 @@ const createHouse = async () => {
 .create-page form{
   display: flex;
   flex-direction: column;
+}
+
+.create-page{
+  position: relative;
+  min-height: 100vh;
+  margin-right: -16vw;
+}
+
+.create-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/img_placeholder_house@3x.png');
+  background-position: left top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(18px);
+  z-index: -2;
+}
+
+
+.create-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(
+    135deg,
+    var(--color-element-background-1) 50%,
+    rgba(255,255,255,0.85) 55%,
+    rgba(255,255,255,0) 85%
+  );
+  z-index: -1;
+}
+
+@media screen and (max-width: 431px) {
+  .create-page{
+    width: 100vw;
+  }
+  .create-page .default{
+    display: none;
+  }
+  .create-page .back-btn{
+    position: initial;
+    justify-content: start;
+    gap: 30%;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 </style>

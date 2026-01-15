@@ -152,4 +152,16 @@
   margin: 0.4rem;
   cursor: pointer;
 }
+
+@media (max-width: 431px) {
+
+  .preview {
+    width: 7rem;
+    height: 7rem;
+    object-fit:cover;
+    border-radius: 8px;
+  }
+
+}
+
 </style>

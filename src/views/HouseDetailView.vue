@@ -68,17 +68,6 @@
     router.push({ name: 'EditHouse', params: { id: houseId } })
   }
 
-  // const deleteMyHouse = async () => {
-  //   try {
-  //     await deleteHouse(houseId)   // waiting for the server to delete the house
-  //     housesStore.loaded = false // flag reset
-  //     await housesStore.fetchHouses()     //  updating the store
-  //     router.push({ name: 'Home'})
-  //   } catch (error) {
-  //     console.error('Error duuring deleting:', error)
-  //   }
-  // }
-
   const showDeleteModal = ref(false) 
   const confirmDelete = () => {
     showDeleteModal.value = true         // open the modal
@@ -106,8 +95,13 @@
 
 <template>
   <div class="back-btn">
-    <img src="../assets/ic_back_grey@3x.png" class="back" @click="router.push({ name: 'Home' })"/>
+    <img src="../assets/ic_back_grey@3x.png" class="back default" @click="router.push({ name: 'Home' })"/>
+    <img src="../assets/ic_back_white@3x.png" class="back mobile" @click="router.push({ name: 'Home' })"/>
     <h4>Back to overview</h4>
+    <div class="detail-actions mobile">
+      <img class="my-house-actions" src="../assets/ic_edit_white@3x.png" v-if="house.madeByMe" @click.stop="goToEdits"/>
+      <img class="my-house-actions" src="../assets/ic_delete_white@3x.png" v-if="house.madeByMe" @click.stop="confirmDelete"/>
+    </div>
   </div>
   <div class="content">
     <div v-for="house in currentHouses" class="house-details" :key="house.id">
@@ -173,6 +167,10 @@
     cursor: pointer;
   }
 
+  .back.mobile{
+    display: none;
+  }
+
   .detail{
     display: flex;
     flex-direction: column;
@@ -200,12 +198,16 @@
     margin: 0.5rem 1rem 0.5rem 0;
     height: 1.2rem;
   }
+  
+  .detail-actions.mobile{
+    display: none;
+  }
 
   .content{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /* gap: 3rem; */
+    gap: 3rem;
   }
 
   .house-details{
@@ -256,13 +258,16 @@
     height: 5.7rem;
   }
 
+  .recommended-area .card .info{
+    gap: 0.2rem
+  }
 
   .recommended-area .card .info div{
     font-size: 0.7rem;
   }
     
   .recommended-area .card .info h2{
-    font-size: 0.8rem;
+    margin: 0;
   }
 
   .recommended-area .card .my-house-actions{
@@ -278,5 +283,64 @@
     font-size: 1rem;
   }
 
+  @media (max-width: 431px) {
+    .houses-page{
+      padding-bottom: 150px;
+      padding: 1rem 1.5rem 0 1.5rem;
+    }
+    .back-btn{
+      position: absolute;
+      padding: 1.5rem;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .back-btn img{
+      height: 1.2rem;
+    }
+    .back-btn h4{
+      display: none;
+    }
+    .back-btn .back.mobile{
+      display: block;
+    }
+    .back-btn .back.default{
+      display: none;
+    }
+
+    .detail{
+      background-color: white;
+      margin-top: -2rem;
+      z-index: 100;
+      position: relative;
+      border-radius: 30px;
+    }
+
+    .detail-actions{
+      display: none;
+    }
+    .detail-actions.mobile{
+      display: block;
+    }
+
+    .content{
+      flex-direction: column;
+    }
+    .house-details{
+      width: 100%;
+    }
+
+    .recommended-area{
+      padding: 0 1.8rem;
+    }
+
+    .recommended-area .card .info{
+      gap: 0.1rem;
+    }
+
+    .recommended-area .card .info div{
+      font-size: 1rem;
+    }
+
+  }
 
 </style>
