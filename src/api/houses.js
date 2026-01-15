@@ -7,7 +7,7 @@ export async function getHouses() {
       method: 'GET',
       headers: {
         'X-Api-Key': API_KEY,
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
     })
 
@@ -24,14 +24,13 @@ export async function getHouses() {
   }
 }
 
-
 export async function getHouse(id) {
   try {
-    const response = await fetch(BASE_URL + "/" + id, {
+    const response = await fetch(BASE_URL + '/' + id, {
       method: 'GET',
       headers: {
         'X-Api-Key': API_KEY,
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
     })
 
@@ -49,11 +48,11 @@ export async function getHouse(id) {
 }
 
 export async function postHouse(formdata) {
-  try{
+  try {
     const response = await fetch(BASE_URL, {
       method: 'POST',
       headers: {
-        "X-Api-Key": API_KEY
+        'X-Api-Key': API_KEY,
       },
       body: formdata,
     })
@@ -65,19 +64,18 @@ export async function postHouse(formdata) {
     }
 
     return response.json()
-  }catch (error) {
+  } catch (error) {
     console.error('Fetch error:', error)
     throw error
   }
 }
 
-
 export async function editHouse(formdata, id) {
-  try{
-    const response = await fetch(BASE_URL + "/" + id, {
+  try {
+    const response = await fetch(BASE_URL + '/' + id, {
       method: 'POST',
       headers: {
-        "X-Api-Key": API_KEY
+        'X-Api-Key': API_KEY,
       },
       body: formdata,
     })
@@ -89,20 +87,19 @@ export async function editHouse(formdata, id) {
     }
 
     return true
-  }catch (error) {
+  } catch (error) {
     console.error('Fetch error:', error)
     throw error
   }
 }
 
 export async function deleteHouse(id) {
-  try{
-    const response = await fetch(BASE_URL + "/" + id, {
+  try {
+    const response = await fetch(BASE_URL + '/' + id, {
       method: 'DELETE',
       headers: {
-        "X-Api-Key": API_KEY
+        'X-Api-Key': API_KEY,
       },
-
     })
     if (!response.ok) {
       const text = await response.text()
@@ -111,19 +108,18 @@ export async function deleteHouse(id) {
     }
 
     return true
-  }catch (error){
-    console.error('Fetch error:', error);
+  } catch (error) {
+    console.error('Fetch error:', error)
     throw error
   }
 }
 
-
 export async function uploadImg(formatImg, id) {
-  try{
-    const response = await fetch(BASE_URL + "/" + id + "/upload", {
+  try {
+    const response = await fetch(BASE_URL + '/' + id + '/upload', {
       method: 'POST',
-      headers: {"X-Api-Key": API_KEY},
-      body: formatImg
+      headers: { 'X-Api-Key': API_KEY },
+      body: formatImg,
     })
 
     if (!response.ok) {
@@ -131,10 +127,10 @@ export async function uploadImg(formatImg, id) {
       console.error('API response:', text)
       throw new Error('API error')
     }
-    
+
     return true
-  }catch (error){
-    console.log('Fetch error:', error);
+  } catch (error) {
+    console.log('Fetch error:', error)
     throw error
   }
 }

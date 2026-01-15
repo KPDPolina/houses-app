@@ -30,9 +30,7 @@ const onImageSelected = (file) => {
 const createHouse = async () => {
   const formData = new FormData()
   const formImg = new FormData()
-  Object.entries(form.value).forEach(([key, value]) =>
-    formData.append(key, value)
-  )
+  Object.entries(form.value).forEach(([key, value]) => formData.append(key, value))
   const newHouse = await postHouse(formData)
   if (image.value) {
     formImg.append('image', image.value)
@@ -50,7 +48,11 @@ const createHouse = async () => {
     <h1 class="default">Create new listing</h1>
 
     <div class="back-btn">
-      <img src="../assets/ic_back_grey@3x.png" class="back" @click="router.push({ name: 'Home' })"/>
+      <img
+        src="../assets/ic_back_grey@3x.png"
+        class="back"
+        @click="router.push({ name: 'Home' })"
+      />
       <h4>Back to overview</h4>
       <h1 class="mobile">Create listing</h1>
     </div>
@@ -65,19 +67,19 @@ const createHouse = async () => {
 </template>
 
 <style>
-.create-page form{
+.create-page form {
   display: flex;
   flex-direction: column;
 }
 
-.create-page{
+.create-page {
   position: relative;
   min-height: 100vh;
   margin-right: -16vw;
 }
 
 .create-page::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background-image: url('../assets/img_placeholder_house@3x.png');
@@ -88,30 +90,28 @@ const createHouse = async () => {
   z-index: -2;
 }
 
-
 .create-page::before {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
-  background:
-    linear-gradient(
+  background: linear-gradient(
     135deg,
     var(--color-element-background-1) 50%,
-    rgba(255,255,255,0.85) 55%,
-    rgba(255,255,255,0) 85%
+    rgba(255, 255, 255, 0.85) 55%,
+    rgba(255, 255, 255, 0) 85%
   );
   z-index: -1;
 }
 
 @media screen and (max-width: 431px) {
-  .create-page{
+  .create-page {
     width: 100vw;
     margin-right: 0;
   }
-  .create-page .default{
+  .create-page .default {
     display: none;
   }
-  .create-page .back-btn{
+  .create-page .back-btn {
     position: initial;
     justify-content: start;
     gap: 30%;
@@ -119,32 +119,30 @@ const createHouse = async () => {
     padding-right: 2.5rem;
   }
 
-  
-.create-page::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url('../assets/img_placeholder_house@3x.png');
-  background-position: left bottom;
-  background-size: contain;
-  background-repeat: no-repeat;
-  filter: blur(5px);
-  z-index: -2;
-  margin-bottom: -7vh;
-}
+  .create-page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('../assets/img_placeholder_house@3x.png');
+    background-position: left bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: blur(5px);
+    z-index: -2;
+    margin-bottom: -7vh;
+  }
 
-.create-page::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    linear-gradient(
-    145deg,
-    var(--color-element-background-1) 50%,
-    rgba(255,255,255,0.85) 70%,
-    rgba(255,255,255,0) 85%
-  );
-  z-index: -1;
-}
+  .create-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+      145deg,
+      var(--color-element-background-1) 50%,
+      rgba(255, 255, 255, 0.85) 70%,
+      rgba(255, 255, 255, 0) 85%
+    );
+    z-index: -1;
+  }
 }
 </style>

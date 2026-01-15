@@ -1,5 +1,3 @@
-
-
 <template>
   <div>
     <!--  Header -->
@@ -9,11 +7,11 @@
         <router-link to="/" class="logo-link">
           <img src="@/assets/img_logo_dtt@3x.png" alt="Logo" class="logo" />
         </router-link>
-        
+
         <!-- Navigation -->
         <nav>
           <router-link to="/" exact>
-            <span class="houses-text" >Houses</span>
+            <span class="houses-text">Houses</span>
             <img
               src="./assets/ic_mobile_navigarion_home@3x.png"
               alt="Houses"
@@ -26,7 +24,7 @@
             />
           </router-link>
           <router-link to="/about">
-            <span class="about-text" >About</span>
+            <span class="about-text">About</span>
             <img
               src="./assets/ic_mobile_navigarion_info@3x.png"
               alt="About"
@@ -42,7 +40,7 @@
         </nav>
       </div>
     </header>
- 
+
     <main>
       <router-view />
     </main>
@@ -50,10 +48,7 @@
 </template>
 
 <style>
-
-
-
-.icon{
+.icon {
   display: none;
 }
 
@@ -64,17 +59,14 @@ nav a {
   transition: color 0.2s;
 }
 
-
 nav a.router-link-active {
-  color: rgb(22, 22, 22); 
+  color: rgb(22, 22, 22);
   font-weight: 700;
 }
-
 
 nav a:hover {
   color: rgb(22, 22, 22);
 }
-
 
 /* ===== MOBILE ===== */
 @media (max-width: 431px) {
@@ -83,7 +75,7 @@ nav a:hover {
   }
 
   header {
-    height: 80px;  
+    height: 80px;
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -119,7 +111,7 @@ nav a:hover {
   } */
 
   .houses-text,
-  .about-text{
+  .about-text {
     display: none;
   }
 
@@ -148,7 +140,5 @@ nav a:hover {
   .router-link-active .icon-active {
     display: block;
   }
-
 }
-
 </style>

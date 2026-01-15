@@ -5,7 +5,6 @@ import { useHousesStore } from '@/stores/houses'
 // import { getHouses } from '@/api/houses'
 import '../assets/base.css'
 
-
 const search = ref('')
 const sortBy = ref('price')
 // const houses = ref([])
@@ -14,32 +13,33 @@ const error = ref(null)
 const housesStore = useHousesStore()
 
 const preraredHouses = computed(() => {
-  let searchHouses = [];
-  if(search.value.length === 0) searchHouses = [...housesStore.houses]
-  else searchHouses = housesStore.houses.filter((element) =>{
-    return element.location.city.toLowerCase().includes(search.value.toLowerCase()) ||
-            element.location.zip.toLowerCase().includes(search.value.toLowerCase()) ||
-            element.location.street.toLowerCase().includes(search.value.toLowerCase()) ||
-            element.price.toString().startsWith(search.value.toLowerCase()) ||
-            element.size.toString().startsWith(search.value.toLowerCase())
-  })
-  return searchHouses.sort((a,b) => {
-    if(sortBy.value === "price"){
+  let searchHouses = []
+  if (search.value.length === 0) searchHouses = [...housesStore.houses]
+  else
+    searchHouses = housesStore.houses.filter((element) => {
+      return (
+        element.location.city.toLowerCase().includes(search.value.toLowerCase()) ||
+        element.location.zip.toLowerCase().includes(search.value.toLowerCase()) ||
+        element.location.street.toLowerCase().includes(search.value.toLowerCase()) ||
+        element.price.toString().startsWith(search.value.toLowerCase()) ||
+        element.size.toString().startsWith(search.value.toLowerCase())
+      )
+    })
+  return searchHouses.sort((a, b) => {
+    if (sortBy.value === 'price') {
       return a.price - b.price //sorted by increasing price
-    }else if(sortBy.value === "size"){
+    } else if (sortBy.value === 'size') {
       return a.size - b.size //sorted by increasing size
     }
     return 0
   })
 })
 
-
 onMounted(async () => {
   try {
     // houses.value = await getHouses()
     await housesStore.fetchHouses()
     // console.log("housesStore.fetchHouses", housesStore.houses);
-    
   } catch (e) {
     error.value = e.message
     console.error(e)
@@ -56,24 +56,16 @@ onMounted(async () => {
       <h1>Houses</h1>
       <router-link to="/houses/create" class="create-area">
         <span class="create-btn">+ CREATE NEW</span>
-        <img
-          src="../assets/ic_plus_grey@3x.png"
-          alt="Create"
-          class="create-icon"
-        />
+        <img src="../assets/ic_plus_grey@3x.png" alt="Create" class="create-icon" />
       </router-link>
     </div>
 
     <!-- Controls -->
     <div class="controls">
       <div class="search">
-        <img src="../assets/ic_search@3x.png" class="search-icon"/>
+        <img src="../assets/ic_search@3x.png" class="search-icon" />
 
-        <input
-          type="text"
-          placeholder="Search for a house"
-          v-model="search"
-        />
+        <input type="text" placeholder="Search for a house" v-model="search" />
 
         <img
           v-if="search.length"
@@ -84,60 +76,39 @@ onMounted(async () => {
       </div>
 
       <div class="toggle">
-        <button
-          :class="{ active: sortBy === 'price' }"
-          @click="sortBy = 'price'"
-        >
-          Price
-        </button>
-        <button
-          :class="{ active: sortBy === 'size' }"
-          @click="sortBy = 'size'"
-        >
-          Size
-        </button>
+        <button :class="{ active: sortBy === 'price' }" @click="sortBy = 'price'">Price</button>
+        <button :class="{ active: sortBy === 'size' }" @click="sortBy = 'size'">Size</button>
       </div>
     </div>
 
     <p v-if="loading">Loading...</p>
     <p v-else-if="error">{{ error }}</p>
-    
 
-    <div v-else >
-      
+    <div v-else>
       <div v-if="preraredHouses.length === 0" class="empty-result">
-        <img style="width: 25rem; padding-bottom: 0.5rem;" src="../assets/img_empty_houses@3x.png"/>
+        <img style="width: 25rem; padding-bottom: 0.5rem" src="../assets/img_empty_houses@3x.png" />
         <span>No results found.</span>
         <span>Please try another keyword.</span>
       </div>
 
-      <h3 v-else-if="preraredHouses.length>0 && search.length!=0">{{preraredHouses.length}} results found</h3>
+      <h3 v-else-if="preraredHouses.length > 0 && search.length != 0">
+        {{ preraredHouses.length }} results found
+      </h3>
       <div class="list">
-        <HouseCard
-          v-for="house in preraredHouses"
-          :key="house.id"
-          :house="house"
-        />
+        <HouseCard v-for="house in preraredHouses" :key="house.id" :house="house" />
       </div>
-
     </div>
   </div>
-
-  
 </template>
 
-
-
 <style scoped>
-
 .houses-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-
-.create-area{
+.create-area {
   text-decoration: none;
 }
 
@@ -151,7 +122,7 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.create-area .create-icon{
+.create-area .create-icon {
   display: none;
 }
 
@@ -194,7 +165,6 @@ onMounted(async () => {
   top: 25%;
   cursor: pointer;
 }
-
 
 .controls {
   display: flex;
@@ -242,7 +212,7 @@ onMounted(async () => {
   font-size: 16px;
 }
 
-.empty-result{
+.empty-result {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -250,13 +220,12 @@ onMounted(async () => {
   color: var(--color-text-secondary);
 }
 
-
 @media screen and (max-width: 431px) {
-  .houses-page{
+  .houses-page {
     width: 100%;
   }
 
-  .houses-header{
+  .houses-header {
     justify-content: flex-end;
     gap: 35%;
   }
@@ -270,20 +239,20 @@ onMounted(async () => {
     height: 1.5rem;
   }
 
-  .controls{
+  .controls {
     flex-direction: column;
     gap: 1rem;
   }
-  .controls .search{
+  .controls .search {
     width: 100%;
   }
-  .controls .search input{
+  .controls .search input {
     padding: 0.8rem 2rem 0.8rem 3.5rem;
   }
-  .controls .toggle{
+  .controls .toggle {
     width: 100%;
   }
-  .controls .toggle button{
+  .controls .toggle button {
     width: 50%;
   }
 }

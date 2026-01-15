@@ -1,22 +1,21 @@
 <script setup>
-    // import {ref} from "vue"
+// import {ref} from "vue"
 
-    const props = defineProps({
-    showDeleteModal: {
-      type: Boolean,
-      required: true,
-    },
-  })
-    
-  const emit = defineEmits(['cancelDelete', 'confirmDelete'])
-  const onCancelDelete = () => {
-    emit('cancelDelete')        //let the event close the modal
-  }
+const props = defineProps({
+  showDeleteModal: {
+    type: Boolean,
+    required: true,
+  },
+})
 
-  const onConfirmDelete = () => {
-    emit('confirmDelete')        //let's remove the house
-  }
-    
+const emit = defineEmits(['cancelDelete', 'confirmDelete'])
+const onCancelDelete = () => {
+  emit('cancelDelete') //let the event close the modal
+}
+
+const onConfirmDelete = () => {
+  emit('confirmDelete') //let's remove the house
+}
 </script>
 
 <template>
@@ -34,72 +33,70 @@
 </template>
 
 <style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  width: 35vw;
+  padding: 3rem 2rem 4rem 2rem;
+  border-radius: 8px;
+  text-align: center;
+  font-size: var(--font-secondary);
+}
 
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
+.modal .modal-message p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
 
+.modal-message {
+  margin-bottom: 2rem;
+}
+
+.modal button {
+  margin: 0 0.5rem;
+  padding: 1rem 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  margin-top: 2rem;
+  color: white;
+  width: 65%;
+}
+
+.confirm-btn {
+  background-color: var(--color-element-primary);
+}
+.reject-btn {
+  background-color: var(--color-element-secondary);
+}
+
+@media screen and (max-width: 431px) {
   .modal {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: white;
-    width: 35vw;
-    padding: 3rem 2rem 4rem 2rem;
-    border-radius: 8px;
-    text-align: center;
-    font-size: var(--font-secondary);
+    width: 90vw;
+    font-size: 13px;
   }
-
-  .modal .modal-message p {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-weight: 400;
+  .modal .modal-message {
+    margin-bottom: 1rem;
   }
-
-  .modal-message{
-    margin-bottom: 2rem;
-  }
-
   .modal button {
-    margin: 0 0.5rem;
-    padding: 1rem 1rem;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    margin-top: 2rem;
-    color: white;
-    width: 65%;
+    margin: 0.3rem 0;
+    padding: 0.6rem;
   }
-
-  .confirm-btn{
-    background-color: var(--color-element-primary);
-  }
-  .reject-btn{
-    background-color: var(--color-element-secondary);
-  }
-
-  @media screen and (max-width: 431px) {
-    .modal{
-      width: 90vw;
-      font-size: 13px;
-    }
-    .modal .modal-message{
-      margin-bottom: 1rem;
-    }
-    .modal button{
-      margin: 0.3rem 0;
-      padding: 0.6rem;
-    }
-  }
+}
 </style>

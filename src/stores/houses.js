@@ -11,7 +11,7 @@ export const useHousesStore = defineStore('houses', {
 
   actions: {
     async fetchHouses() {
-      if (this.loaded) return//if the data is already there, exit
+      if (this.loaded) return //if the data is already there, exit
 
       this.loading = true
       this.error = null

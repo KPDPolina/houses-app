@@ -47,9 +47,7 @@ onMounted(async () => {
 const updateHouse = async () => {
   const formData = new FormData()
   const formImg = new FormData()
-  Object.entries(form.value).forEach(([key, value]) =>
-    formData.append(key, value)
-  )
+  Object.entries(form.value).forEach(([key, value]) => formData.append(key, value))
 
   await editHouse(formData, houseId)
   if (image.value) {
@@ -68,7 +66,11 @@ const updateHouse = async () => {
     <h1 class="default">Edit listing</h1>
 
     <div class="back-btn">
-      <img src="../assets/ic_back_grey@3x.png" class="back" @click="router.push({ name: 'HouseDetail', params: { id: houseId } })"/>
+      <img
+        src="../assets/ic_back_grey@3x.png"
+        class="back"
+        @click="router.push({ name: 'HouseDetail', params: { id: houseId } })"
+      />
       <h4>Back to detail page</h4>
       <h1 class="mobile">Edit listing</h1>
     </div>
@@ -83,15 +85,14 @@ const updateHouse = async () => {
 </template>
 
 <style>
-
-.edit-page{
+.edit-page {
   position: relative;
   min-height: 100vh;
   margin-right: -16vw;
 }
 
 .edit-page::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background-image: url('../assets/img_placeholder_house@3x.png');
@@ -102,45 +103,42 @@ const updateHouse = async () => {
   z-index: -2;
 }
 
-
 .edit-page::before {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
-  background:
-    linear-gradient(
+  background: linear-gradient(
     135deg,
     var(--color-element-background-1) 50%,
-    rgba(255,255,255,0.85) 55%,
-    rgba(255,255,255,0) 85%
+    rgba(255, 255, 255, 0.85) 55%,
+    rgba(255, 255, 255, 0) 85%
   );
   z-index: -1;
 }
 
-.edit-page form{
+.edit-page form {
   display: flex;
   flex-direction: column;
 }
 
-
 @media screen and (max-width: 431px) {
-  .edit-page{
+  .edit-page {
     width: 100vw;
     margin-right: 0;
   }
-  .edit-page .default{
+  .edit-page .default {
     display: none;
   }
-  .edit-page .back-btn{
+  .edit-page .back-btn {
     position: initial;
     justify-content: start;
     gap: 30%;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
-    
+
   .edit-page::after {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     background-image: url('../assets/img_placeholder_house@3x.png');
@@ -149,19 +147,18 @@ const updateHouse = async () => {
     background-repeat: no-repeat;
     filter: blur(5px);
     z-index: -2;
-    /* margin-bottom: -7vh; */
+    margin-bottom: -7vh;
   }
 
   .edit-page::before {
-    content: "";
+    content: '';
     position: fixed;
     inset: 0;
-    background:
-      linear-gradient(
+    background: linear-gradient(
       145deg,
       var(--color-element-background-1) 50%,
-      rgba(255,255,255,0.85) 70%,
-      rgba(255,255,255,0) 85%
+      rgba(255, 255, 255, 0.85) 70%,
+      rgba(255, 255, 255, 0) 85%
     );
     z-index: -1;
   }
