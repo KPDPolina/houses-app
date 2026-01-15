@@ -49,6 +49,11 @@ const createHouse = async () => {
   <div class="create-page">
     <h1>Create new listing</h1>
 
+    <div class="back-btn">
+      <img src="../assets/ic_back_grey@3x.png" class="back" @click="router.push({ name: 'Home' })"/>
+      <h4>Back to overview</h4>
+    </div>
+
     <HouseForm
       v-model="form"
       submit-label="POST"

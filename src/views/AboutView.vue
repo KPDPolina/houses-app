@@ -21,21 +21,30 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    font-size: var(--font-secondary);
+
+  }
+
+  .about p{
+    color: var(--color-text-secondary);
+    line-height: 180%;
+    font-weight: 400;
   }
   
   .logo-bottom{
     display: flex;
     gap: 2rem;
-    
   }
   .logo-bottom div{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: var(--color-text-secondary);
     
   }
   .logo-bottom div a{
     text-decoration: none;
+    color: var(--color-text-hyperlink);
   }
 
 </style>

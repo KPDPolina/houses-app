@@ -59,6 +59,11 @@ const updateHouse = async () => {
   <div class="edit-page">
     <h1>Edit listing</h1>
 
+    <div class="back-btn">
+      <img src="../assets/ic_back_grey@3x.png" class="back" @click="router.push({ name: 'HouseDetail', params: { id: houseId } })"/>
+      <h4>Back to detail page</h4>
+    </div>
+
     <HouseForm
       v-model="form"
       submit-label="SAVE"

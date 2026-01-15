@@ -22,9 +22,13 @@
 <template>
   <div v-if="props.showDeleteModal" class="modal-overlay">
     <div class="modal">
-      <p>Are you sure you want to delete this house?</p>
-      <button @click="onConfirmDelete">Yes</button>
-      <button @click="onCancelDelete">No</button>
+      <h2>Delete listing</h2>
+      <div class="modal-message">
+        <p>Are you sure you want to delete this listing?</p>
+        <p>This action cannot be undone.</p>
+      </div>
+      <button class="confirm-btn" @click="onConfirmDelete">YES, DELETE</button>
+      <button class="reject-btn" @click="onCancelDelete">GO BACK</button>
     </div>
   </div>
 </template>
@@ -46,15 +50,42 @@
   }
 
   .modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background: white;
-    padding: 2rem;
+    width: 35vw;
+    padding: 3rem 2rem 4rem 2rem;
     border-radius: 8px;
     text-align: center;
+    font-size: var(--font-secondary);
+  }
+
+  .modal .modal-message p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+  }
+
+  .modal-message{
+    margin-bottom: 2rem;
   }
 
   .modal button {
     margin: 0 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 1rem 1rem;
     cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    margin-top: 2rem;
+    color: white;
+    width: 65%;
+  }
+
+  .confirm-btn{
+    background-color: var(--color-element-primary);
+  }
+  .reject-btn{
+    background-color: var(--color-element-secondary);
   }
 </style>
