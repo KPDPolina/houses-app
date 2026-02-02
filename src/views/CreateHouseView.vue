@@ -28,6 +28,8 @@ const onImageSelected = (file) => {
 }
 
 const createHouse = async () => {
+  console.log("image.value", image.value)
+  
   const formData = new FormData()
   const formImg = new FormData()
   Object.entries(form.value).forEach(([key, value]) => formData.append(key, value))
@@ -59,6 +61,7 @@ const createHouse = async () => {
 
     <HouseForm
       v-model="form"
+      v-model:image="image"
       submit-label="POST"
       @submit="createHouse"
       @image-selected="onImageSelected"

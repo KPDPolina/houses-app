@@ -33,6 +33,7 @@ onMounted(async () => {
     bedrooms: house.rooms.bedrooms,
     bathrooms: house.rooms.bathrooms,
     size: house.size,
+    image: house.image,
     streetName: house.location.street,
     houseNumber: house.location.houseNumber,
     numberAddition: house.location.houseNumberAddition,
@@ -77,6 +78,7 @@ const updateHouse = async () => {
 
     <HouseForm
       v-model="form"
+      :preview="form.image"
       submit-label="SAVE"
       @submit="updateHouse"
       @image-selected="onImageSelected"

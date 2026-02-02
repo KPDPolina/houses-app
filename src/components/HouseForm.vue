@@ -1,5 +1,9 @@
 <script setup>
 // import '../assets/base.css'
+import FormImage from './formsComponents/FormImage.vue'
+import FormInput from './formsComponents/FormInput.vue'
+import FormSelect from './formsComponents/FormSelect.vue'
+import FormTextarea from './formsComponents/FormTextarea.vue'
 import { reactive, watch, ref, nextTick, computed } from 'vue'
 
 const props = defineProps({
@@ -54,21 +58,30 @@ const onSubmit = () => {
   }
 }
 
-const fileInput = ref(null)
-const preview = ref(null)
+// const fileInput = ref(null)
+const localPreview = ref(props.preview || null) 
 
-const triggerFileInput = () => {
-  fileInput.value.click()
-}
+watch( 
+  () => props.preview, 
+  (newVal) => { localPreview.value = newVal } 
+)
+const localImage = ref(null)
 
-const onFileChange = (event) => {
-  const file = event.target.files[0]
-  if (!file) return
-
+watch(localImage, (file) => {
   emit('image-selected', file)
+})
+// const triggerFileInput = () => {
+//   fileInput.value.click()
+// }
 
-  preview.value = URL.createObjectURL(file)
-}
+// const onFileChange = (event) => {
+//   const file = event.target.files[0]
+//   if (!file) return
+
+//   emit('image-selected', file)
+
+//   preview.value = URL.createObjectURL(file)
+// }
 
 const errors = reactive({
   streetName: '',
@@ -98,195 +111,160 @@ const validateForm = () => {
 }
 
 const isFormValid = computed(() => {
+  const hasImage = form.image || localImage.value
   return (
     form.streetName &&
     form.houseNumber &&
     form.zip &&
     form.city &&
+    hasImage &&
     form.price &&
     form.size &&
     form.bedrooms &&
     form.bathrooms &&
     form.constructionYear &&
     form.description &&
-    typeof form.hasGarage === 'boolean'
+    ((form.hasGarage === "true") || (form.hasGarage === "false") || (form.hasGarage === true) || (form.hasGarage === false))
   )
 })
+
+  console.log( "isFormValid", !!isFormValid.value, "hasImage", form.image || localImage.value, 
+  "form.hasGarage", form.hasGarage,
+"form.hasGarage == true)", form.hasGarage == "true",
+"(form.hasGarage == false)", form.hasGarage == "false", "sss", (form.hasGarage === true) || (form.hasGarage === false) );
+
+
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
-    <label for="streetName">Street name*</label>
-    <input
-      id="streetName"
+    <FormInput 
+      label="Street name*"
       v-model="form.streetName"
-      placeholder="Enter the street name"
-      required
-      :class="{ error: errors.streetName }"
+      :error="errors.streetName"
+      placeholder="Enter street name"
       @blur="validateField('streetName')"
     />
-    <p v-if="errors.streetName" class="error-text">{{ errors.streetName }}</p>
 
     <div class="area number-addition">
       <div class="form-group">
-        <label for="houseNumber">House number*</label>
-        <input
-          id="houseNumber"
+        <FormInput 
+          label="House number*"
           type="number"
           v-model="form.houseNumber"
+          :error="errors.houseNumber"
           placeholder="Enter house number"
-          required
-          :class="{ error: errors.houseNumber }"
           @blur="validateField('houseNumber')"
         />
-        <p v-if="errors.houseNumber" class="error-text">{{ errors.houseNumber }}</p>
       </div>
 
       <div class="form-group">
-        <label for="numberAddition">Addition</label>
-        <input id="numberAddition" v-model="form.numberAddition" placeholder="e.g. A" />
+        <FormInput 
+          label="Addition*"
+          v-model="form.numberAddition"
+          :error="errors.numberAddition"
+          placeholder="e.g. A"
+        />
       </div>
     </div>
 
-    <label for="zip">Post code*</label>
-    <input
-      id="zip"
+    <FormInput 
+      label="Post code*"
       v-model="form.zip"
+      :error="errors.zip"
       placeholder="e.g. 1000 AA"
-      required
-      :class="{ error: errors.zip }"
       @blur="validateField('zip')"
     />
-    <p v-if="errors.zip" class="error-text">{{ errors.zip }}</p>
-
-    <label for="city">City*</label>
-    <input
-      id="city"
+    <FormInput 
+      label="City*"
       v-model="form.city"
+      :error="errors.city"
       placeholder="e.g. Utrecht"
-      required
-      :class="{ error: errors.city }"
       @blur="validateField('city')"
     />
-    <p v-if="errors.city" class="error-text">{{ errors.city }}</p>
 
-    <label for="image">Upload picture (PNG or JPG)*</label>
-    <!-- <input id="image" @change="onFileChange" type="file" accept="image/png, image/jpeg"/> -->
-    <div class="image-upload" @click="triggerFileInput">
-      <input
-        ref="fileInput"
-        type="file"
-        accept="image/png, image/jpeg"
-        class="hidden-input"
-        @change="onFileChange"
-      />
+    <FormImage
+      label="Upload picture (PNG or JPG)*"
+      v-model="localImage"
+      :preview="form.image"
+      @blur="validateField('localImage')"
+    />
 
-      <div v-if="!preview" class="img-placeholder">
-        <img class="img-plus" src="../assets/ic_plus_grey@3x.png" />
-      </div>
-
-      <img v-else :src="preview" alt="Preview" class="preview" />
-    </div>
-
-    <label for="price">Price*</label>
-    <input
-      id="price"
+    <FormInput 
+      label="Price*"
       type="number"
       v-model="form.price"
+      :error="errors.price"
       placeholder="e.g. €150.000"
-      required
-      :class="{ error: errors.price }"
       @blur="validateField('price')"
     />
-    <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
 
     <div class="area size-garage">
       <div class="form-group">
-        <label for="size">Size*</label>
-        <input
-          id="size"
+        <FormInput 
+          label="Size*"
           type="number"
           v-model="form.size"
+          :error="errors.size"
           placeholder="e.g. 60 m2"
-          required
-          :class="{ error: errors.size }"
           @blur="validateField('size')"
         />
-        <p v-if="errors.size" class="error-text">{{ errors.size }}</p>
       </div>
 
       <div class="form-group">
-        <label for="garage">Garage*</label>
-        <select
-          id="garage"
+        <FormSelect
+          label="Garage*"
           v-model="form.hasGarage"
-          required
-          :class="{ error: errors.hasGarage }"
+          :options="[{label: 'Yes', value: true}, 
+                    {label: 'No', value: false}]"
+          :error="errors.hasGarage"
           @blur="validateField('hasGarage')"
-        >
-          <option disabled value="">Select</option>
-          <option :value="true">Yes</option>
-          <option :value="false">No</option>
-        </select>
-        <p v-if="errors.hasGarage" class="error-text">{{ errors.hasGarage }}</p>
+        />
       </div>
     </div>
 
     <div class="area bedrooms-bathrooms">
       <div class="form-group">
-        <label for="bedrooms">Bedrooms*</label>
-        <input
-          id="bedrooms"
+        <FormInput 
+          label="Bedrooms*"
           type="number"
           v-model="form.bedrooms"
+          :error="errors.bedrooms"
           placeholder="Enter amount"
-          required
-          :class="{ error: errors.bedrooms }"
           @blur="validateField('bedrooms')"
         />
-        <p v-if="errors.bedrooms" class="error-text">{{ errors.bedrooms }}</p>
       </div>
+
       <div class="form-group">
-        <label for="bathrooms">Bathrooms*</label>
-        <input
-          id="bathrooms"
+        <FormInput 
+          label="Bathrooms*"
           type="number"
           v-model="form.bathrooms"
+          :error="errors.bathrooms"
           placeholder="Enter amount"
-          required
-          :class="{ error: errors.bathrooms }"
           @blur="validateField('bathrooms')"
         />
-        <p v-if="errors.bathrooms" class="error-text">{{ errors.bathrooms }}</p>
       </div>
     </div>
 
-    <label for="constructionYear">Construction year*</label>
-    <input
-      id="constructionYear"
+    <FormInput 
+      label="Construction year*"
       type="number"
       v-model="form.constructionYear"
+      :error="errors.constructionYear"
       placeholder="e.g. 1990"
-      required
-      :class="{ error: errors.constructionYear }"
       @blur="validateField('constructionYear')"
     />
-    <p v-if="errors.constructionYear" class="error-text">{{ errors.constructionYear }}</p>
 
-    <label for="description">Description*</label>
-    <textarea
-      id="description"
-      ref="descriptionRef"
+
+    <FormTextarea
+      label="Description*"
       v-model="form.description"
       placeholder="Description"
       maxlength="700"
-      required
-      @input="autoResizeTextarea"
-      :class="{ error: errors.description }"
+      :error="errors.description"
       @blur="validateField('description')"
-    >
-    </textarea>
-    <p v-if="errors.description" class="error-text">{{ errors.description }}</p>
+    />
 
     <div class="btn-submit">
       <button type="submit" :disabled="!isFormValid" :class="{ active: isFormValid }">
