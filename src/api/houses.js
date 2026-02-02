@@ -1,9 +1,9 @@
-const BASE_URL = 'https://api.intern.d-tt.nl/api/houses'
+const API_URL = import.meta.env.VITE_API_URL //'https://api.intern.d-tt.nl/api/houses'
 const API_KEY = import.meta.env.VITE_HOUSES_API_KEY //an API key from Signup page,
 
 export async function getHouses() {
   try {
-    const response = await fetch(BASE_URL, {
+    const response = await fetch(API_URL, {
       method: 'GET',
       headers: {
         'X-Api-Key': API_KEY,
@@ -26,7 +26,7 @@ export async function getHouses() {
 
 export async function getHouse(id) {
   try {
-    const response = await fetch(BASE_URL + '/' + id, {
+    const response = await fetch(API_URL + '/' + id, {
       method: 'GET',
       headers: {
         'X-Api-Key': API_KEY,
@@ -49,7 +49,7 @@ export async function getHouse(id) {
 
 export async function postHouse(formdata) {
   try {
-    const response = await fetch(BASE_URL, {
+    const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'X-Api-Key': API_KEY,
@@ -72,7 +72,7 @@ export async function postHouse(formdata) {
 
 export async function editHouse(formdata, id) {
   try {
-    const response = await fetch(BASE_URL + '/' + id, {
+    const response = await fetch(API_URL + '/' + id, {
       method: 'POST',
       headers: {
         'X-Api-Key': API_KEY,
@@ -95,7 +95,7 @@ export async function editHouse(formdata, id) {
 
 export async function deleteHouse(id) {
   try {
-    const response = await fetch(BASE_URL + '/' + id, {
+    const response = await fetch(API_URL + '/' + id, {
       method: 'DELETE',
       headers: {
         'X-Api-Key': API_KEY,
@@ -116,7 +116,7 @@ export async function deleteHouse(id) {
 
 export async function uploadImg(formatImg, id) {
   try {
-    const response = await fetch(BASE_URL + '/' + id + '/upload', {
+    const response = await fetch(API_URL + '/' + id + '/upload', {
       method: 'POST',
       headers: { 'X-Api-Key': API_KEY },
       body: formatImg,
