@@ -8,7 +8,10 @@ import { useHousesStore } from '@/stores/houses'
 const router = useRouter()
 const housesStore = useHousesStore()
 
+// Selected image file from the form
 const image = ref(null)
+
+// Form state object
 const form = ref({
   price: '',
   bedrooms: '',
@@ -23,10 +26,19 @@ const form = ref({
   hasGarage: '',
   description: '',
 })
+
+/**
+ * Handles selected image from HouseForm component
+ * @param {File} file - The selected image file
+ */
 const onImageSelected = (file) => {
   image.value = file
 }
 
+/**
+ * Submits the form to create a new house
+ * Sends the form data to the API and uploads image if present
+ */
 const createHouse = async () => {
   console.log('image.value', image.value)
 

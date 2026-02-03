@@ -1,4 +1,18 @@
 <script setup>
+/**
+ * FormSelect component
+ * Reusable select field with label, validation error display and v-model support
+ *
+ * @component
+ *
+ * @prop {string} label - Select label text
+ * @prop {Array<{ label: string, value: string | number | boolean }>} options - Select options list
+ * @prop {string|null} [error] - Validation error message
+ * @prop {string|number|boolean} modelValue - Bound selected value (v-model)
+ *
+ * @emits update:modelValue - Emits selected value on change
+ * @emits blur - Emits blur event for validation handling
+ */
 const props = defineProps({
   label: {
     type: String,
@@ -31,7 +45,7 @@ const emit = defineEmits(['update:modelValue', 'blur'])
       {{ opt.label }}
     </option>
   </select>
-  <p v-if="error" class="error-text">{{ props.error }}</p>
+  <p v-if="props.error" class="error-text">{{ props.error }}</p>
 </template>
 
 <style scoped>

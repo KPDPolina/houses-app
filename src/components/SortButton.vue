@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * Props for the toggle button.
+ * @property {string} label - The text displayed on the button.
+ * @property {string} value - The value this button represents.
+ * @property {string} modelValue - The current selected value of the toggle group.
+ */
 const props = defineProps({
   label: {
     type: String,
@@ -11,6 +17,10 @@ const props = defineProps({
   },
 })
 
+/**
+ * Emits when the button is clicked to update the toggle selection.
+ * @event update:modelValue
+ */
 const emit = defineEmits(['update:modelValue'])
 </script>
 

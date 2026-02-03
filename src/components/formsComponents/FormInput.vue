@@ -1,4 +1,19 @@
 <script setup>
+/**
+ * FormInput component
+ * Reusable input field with label, validation error display and v-model support
+ *
+ * @component
+ *
+ * @prop {string} label - Input label text
+ * @prop {string|number} modelValue - Bound input value (v-model)
+ * @prop {string} [type="text"] - Input type (text, number, password, etc.)
+ * @prop {string} [placeholder] - Placeholder text
+ * @prop {string|null} [error] - Validation error message
+ *
+ * @emits update:modelValue - Emits new input value on change
+ * @emits blur - Emits blur event for validation handling
+ */
 const props = defineProps({
   label: {
     type: String,

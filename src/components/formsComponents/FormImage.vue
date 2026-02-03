@@ -1,6 +1,21 @@
 <script setup>
 import { ref, watch } from 'vue'
-
+/**
+ * FormImage component
+ * Handles image selection and preview for forms
+ *
+ * @component
+ *
+ * @typedef {Object} FormImageProps
+ * @property {string} label - Field label text
+ * @property {string|null} error - Validation error message
+ * @property {string} placeholder - Placeholder text
+ * @property {string|null} preview - Image URL for preview
+ * @property {File} modelValue - Selected image file
+ *
+ * @emits update:modelValue - Emits selected File object
+ * @emits blur - Emits blur event for validation
+ */
 const props = defineProps({
   label: {
     type: String,
@@ -34,10 +49,18 @@ watch(
   { immediate: true },
 )
 
+/**
+ * Opens the hidden file input
+ */
 const triggerFileInput = () => {
   fileInput.value.click()
 }
 
+/**
+ * Handles file selection and generates preview
+ *
+ * @param {Event} event - File input change event
+ */
 const onFileChange = (event) => {
   const file = event.target.files[0]
   if (!file) return

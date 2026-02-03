@@ -8,23 +8,36 @@ import HouseCard from '@/components/HouseCard.vue'
 import DeleteModal from '@/components/DeleteModal.vue'
 import { computed } from 'vue'
 
+// Current route and router instances
 const route = useRoute()
 const router = useRouter()
+
+// Current house ID from route params
 let houseId = route.params.id
 
+// Array of houses returned from API (usually single house)
 const currentHouses = ref([])
+
+// Current selected house object
 const house = ref({})
+
+// Loading and error states for API calls
 const error = ref(null)
 const loading = ref(true)
 
+// Pinia store for all houses
 const housesStore = useHousesStore()
 
+/**
+ * Fetch house details by ID
+ * @param {number} id
+ */
 const loadHouse = async (id) => {
   loading.value = true
   try {
     currentHouses.value = await getHouse(id)
     house.value = currentHouses.value[0]
-    housesStore.fetchHouses()
+    housesStore.fetchHouses() // refresh store data
     houseId = house.value.id
   } catch (e) {
     error.value = e.message
@@ -34,10 +47,12 @@ const loadHouse = async (id) => {
   }
 }
 
+// Load house on component mount
 onMounted(() => {
   loadHouse(houseId)
 })
 
+// Watch for route ID changes to reload house
 watch(
   () => route.params.id,
   (newId) => {
@@ -45,8 +60,12 @@ watch(
   },
 )
 
+// Format price in Dutch locale
 const formatPrice = (value) => new Intl.NumberFormat('nl-NL').format(value)
 
+/**
+ * Computed recommended houses based on similar location, size, price, or construction year
+ */
 const recommendedHouses = computed(() => {
   if (!house.value.location) return []
   console.log(house)
@@ -64,10 +83,12 @@ const recommendedHouses = computed(() => {
   })
 })
 
+// Navigate to house edit page
 const goToEdits = () => {
   router.push({ name: 'EditHouse', params: { id: houseId } })
 }
 
+// Modal state for confirming house deletion
 const showDeleteModal = ref(false)
 const confirmDelete = () => {
   showDeleteModal.value = true // open the modal
@@ -77,13 +98,16 @@ const hideDeleteModal = () => {
   showDeleteModal.value = false // close the modal
 }
 
+/**
+ * Delete house and refresh the store
+ */
 const deleteHouseConfirmed = async () => {
   try {
     await deleteHouse(houseId)
     housesStore.loaded = false
     await housesStore.fetchHouses()
     showDeleteModal.value = false // close the modal
-    router.push({ name: 'Home' })
+    router.push({ name: 'Home' }) // Navigate to home page
   } catch (error) {
     console.error('Error during deleting:', error)
   }

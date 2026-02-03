@@ -18,7 +18,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'submit', 'image-selected'])
 
-// form copy
+/**
+ * Reactive copy of the modelValue prop for local form handling.
+ */
 const form = reactive({ ...props.modelValue })
 
 // if new data came from outside (edit)
@@ -39,18 +41,26 @@ watch(
   { deep: true },
 )
 
+/**
+ * Emit the submit event if the form passes validation.
+ */
 const onSubmit = () => {
   if (validateForm()) {
     emit('submit')
   }
 }
 
+/**
+ * Watch local image changes and emit to parent component.
+ */
 const localImage = ref(null)
-
 watch(localImage, (file) => {
   emit('image-selected', file)
 })
 
+/**
+ * Reactive object to store field validation errors.
+ */
 const errors = reactive({
   streetName: '',
   houseNumber: '',
@@ -65,6 +75,10 @@ const errors = reactive({
   description: '',
 })
 
+/**
+ * Validate a single form field and update errors object.
+ * @param {string} field - Name of the field to validate.
+ */
 const validateField = (field) => {
   if (!form[field]) {
     errors[field] = 'This field is required'
@@ -73,11 +87,19 @@ const validateField = (field) => {
   }
 }
 
+/**
+ * Validate all fields in the form.
+ * @returns {boolean} True if the form has no errors.
+ */
 const validateForm = () => {
   Object.keys(errors).forEach(validateField)
   return Object.values(errors).every((e) => !e) //  if there are no errors - true
 }
 
+/**
+ * Computed property indicating whether the form is valid for submission.
+ * Includes checking for required fields and presence of an image.
+ */
 const isFormValid = computed(() => {
   const hasImage = form.image || localImage.value
   return (

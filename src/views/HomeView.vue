@@ -7,11 +7,14 @@ import { useHousesStore } from '@/stores/houses'
 import '../assets/base.css'
 
 const search = ref('')
-const sortBy = ref('price')
-const loading = ref(true)
+const sortBy = ref('price') // Current sort option ('price' or 'size')
+const loading = ref(true) // Loading state while fetching houses
 const error = ref(null)
 const housesStore = useHousesStore()
 
+/**
+ * Computed array of houses filtered by search and sorted by sortBy
+ */
 const preraredHouses = computed(() => {
   let searchHouses = []
   if (search.value.length === 0) searchHouses = [...housesStore.houses]
@@ -35,6 +38,10 @@ const preraredHouses = computed(() => {
   })
 })
 
+/**
+ * Fetches the houses from the store when component is mounted
+ * Handles loading state and errors
+ */
 onMounted(async () => {
   try {
     await housesStore.fetchHouses()

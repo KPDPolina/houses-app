@@ -1,6 +1,20 @@
 <script setup>
 import { ref } from 'vue'
-
+/**
+ * FormTextarea component
+ * Reusable textarea field with auto-resize, label, validation error display and v-model support.
+ *
+ * @component
+ *
+ * @prop {string} label - Text label for the textarea
+ * @prop {string|null} [error] - Validation error message
+ * @prop {string|null} [placeholder] - Placeholder text
+ * @prop {string|number|null} [maxlength] - Maximum number of characters allowed
+ * @prop {string} modelValue - Bound textarea value (v-model)
+ *
+ * @emits update:modelValue - Emits the new value when user types
+ * @emits blur - Emits blur event for validation handling
+ */
 const props = defineProps({
   label: {
     type: String,
@@ -49,7 +63,7 @@ const autoResizeTextarea = () => {
     :class="{ error: props.error }"
     @blur="emit('blur')"
   ></textarea>
-  <p v-if="error" class="error-text">{{ props.error }}</p>
+  <p v-if="props.error" class="error-text">{{ props.error }}</p>
 </template>
 
 <style scoped>

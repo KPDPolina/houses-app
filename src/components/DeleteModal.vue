@@ -7,10 +7,17 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['cancelDelete', 'confirmDelete'])
+
+/**
+ * Emit event to cancel the delete action and close the modal.
+ */
 const onCancelDelete = () => {
   emit('cancelDelete') //let the event close the modal
 }
 
+/**
+ * Emit event to confirm deletion of the listing.
+ */
 const onConfirmDelete = () => {
   emit('confirmDelete') //let's remove the house
 }

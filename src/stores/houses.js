@@ -1,15 +1,26 @@
 import { defineStore } from 'pinia'
 import { getHouses } from '@/api/houses'
 
+/**
+ * Pinia store for managing houses data
+ */
 export const useHousesStore = defineStore('houses', {
   state: () => ({
+    /** @type {Array} List of houses */
     houses: [],
+    /** @type {boolean} Loading state */
     loading: false,
+    /** @type {string|null} Error message */
     error: null,
-    loaded: false, //cache flag
+    /** @type {boolean} Flag to indicate cached data */
+    loaded: false,
   }),
 
   actions: {
+    /**
+     * Fetch houses from API.
+     * Uses cache: if `loaded` is true, skips fetching.
+     */
     async fetchHouses() {
       if (this.loaded) return //if the data is already there, exit
 

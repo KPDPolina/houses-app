@@ -21,10 +21,17 @@ const form = ref({})
 const houseId = route.params.id
 const image = ref(null)
 
+/**
+ * Handles selected image from HouseForm component
+ * @param {File} file - The selected image file
+ */
 const onImageSelected = (file) => {
   image.value = file
 }
 
+/**
+ * Fetches house data by ID and fills the form
+ */
 onMounted(async () => {
   const houses = await getHouse(houseId)
   const house = houses[0]
@@ -45,6 +52,10 @@ onMounted(async () => {
   }
 })
 
+/**
+ * Submits the updated house data
+ * Sends form data and uploads new image if present
+ */
 const updateHouse = async () => {
   const formData = new FormData()
   const formImg = new FormData()

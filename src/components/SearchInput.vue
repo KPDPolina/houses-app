@@ -1,8 +1,16 @@
 <script setup>
+/**
+ * The current value of the search input.
+ * @type {string}
+ */
 defineProps({
   modelValue: String,
 })
 
+/**
+ * Emits when the input value changes.
+ * @event update:modelValue
+ */
 const emit = defineEmits(['update:modelValue'])
 </script>
 

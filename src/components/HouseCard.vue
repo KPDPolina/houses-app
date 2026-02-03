@@ -15,25 +15,48 @@ const props = defineProps({
   },
 })
 
+/**
+ * Navigate to the house detail page.
+ * @param {number} id - ID of the house.
+ */
 const goToDetails = (id) => {
   router.push({ name: 'HouseDetail', params: { id: id } })
 }
 
+/**
+ * Navigate to the edit page for this house.
+ */
 const goToEdits = () => {
   router.push({ name: 'EditHouse', params: { id: props.house.id } })
 }
 
+/**
+ * Format number as Dutch currency.
+ * @param {number} value
+ * @returns {string} Formatted price
+ */
 const formatPrice = (value) => new Intl.NumberFormat('nl-NL').format(value)
 
 const showDeleteModal = ref(false)
+
+/**
+ * Open the delete confirmation modal.
+ */
 const confirmDelete = () => {
   showDeleteModal.value = true // open modal
 }
 
+/**
+ * Close the delete confirmation modal.
+ */
 const hideDeleteModal = () => {
   showDeleteModal.value = false // close modal
 }
 
+/**
+ * Delete the house and refresh the store.
+ * Closes the modal after deletion.
+ */
 const deleteHouseConfirmed = async () => {
   try {
     await deleteHouse(props.house.id)
