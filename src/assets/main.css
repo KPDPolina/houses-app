@@ -43,19 +43,6 @@ nav {
   font-weight: 700;
 }
 
-@media (max-width: 431px) {
-  h1 {
-    font-size: 18px;
-  }
-  h2 {
-    font-size: 14px;
-  }
-
-  button {
-    font-size: 12px;
-  }
-}
-
 #app {
   margin: 0;
   padding: 0;
@@ -94,14 +81,22 @@ main {
   padding: 1rem;
 }
 
-@media screen and (max-width: 431px) {
-  /* body{
-    width: 100vw;
-  } */
+@media screen and (max-width: 800px) {
+  h1 {
+    font-size: 18px;
+  }
+  h2 {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 12px;
+  }
+
   header {
-  position: initial;
-  top: initial;
-  z-index: initial;
+    position: initial;
+    top: initial;
+    z-index: initial;
   }
 
   main {

@@ -21,24 +21,24 @@ const props = defineProps({
   },
 })
 
-  const emit = defineEmits(['update:modelValue', "blur"])
+const emit = defineEmits(['update:modelValue', 'blur'])
 </script>
 
 <template>
-    <label>{{ props.label }}</label>
-    
-    <input 
-        :type = type
-        :value="modelValue"
-        :placeholder="props.placeholder"
-        @input="emit('update:modelValue', $event.target.value)" 
-        @blur="emit('blur')"
-        :class="{ error: props.error }"
-    />
-    
-    <p v-if="props.error" class="error-text">
-        {{ props.error }}
-    </p>
+  <label>{{ props.label }}</label>
+
+  <input
+    :type="type"
+    :value="modelValue"
+    :placeholder="props.placeholder"
+    @input="emit('update:modelValue', $event.target.value)"
+    @blur="emit('blur')"
+    :class="{ error: props.error }"
+  />
+
+  <p v-if="props.error" class="error-text">
+    {{ props.error }}
+  </p>
 </template>
 
 <style scoped>
@@ -48,7 +48,7 @@ label {
   margin-bottom: 0.5rem;
   font-size: 16px;
 }
-input { 
+input {
   background-color: var(--color-element-background-2);
   font-family: var(--font-primary);
   font-size: 14px;
@@ -61,10 +61,10 @@ input:focus-visible {
   outline-width: 0px;
   box-shadow: 0px 2px 5px var(--color-element-tertiary-dark);
 }
-input.error{
+input.error {
   border: 2px solid var(--color-element-primary);
 }
-input.error::placeholder{
+input.error::placeholder {
   color: var(--color-element-primary);
 }
 
@@ -75,5 +75,4 @@ input.error::placeholder{
   font-size: 12px;
   margin-top: 4px;
 }
-
 </style>

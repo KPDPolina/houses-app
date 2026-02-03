@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL //'https://api.intern.d-tt.nl/api/houses'
+const API_URL = import.meta.env.VITE_API_URL
 const API_KEY = import.meta.env.VITE_HOUSES_API_KEY //an API key from Signup page,
 
 export async function getHouses() {

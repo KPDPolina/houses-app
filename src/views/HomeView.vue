@@ -4,12 +4,10 @@ import HouseCard from '@/components/HouseCard.vue'
 import SearchInput from '@/components/SearchInput.vue'
 import SortButton from '@/components/SortButton.vue'
 import { useHousesStore } from '@/stores/houses'
-// import { getHouses } from '@/api/houses'
 import '../assets/base.css'
 
 const search = ref('')
 const sortBy = ref('price')
-// const houses = ref([])
 const loading = ref(true)
 const error = ref(null)
 const housesStore = useHousesStore()
@@ -39,9 +37,7 @@ const preraredHouses = computed(() => {
 
 onMounted(async () => {
   try {
-    // houses.value = await getHouses()
     await housesStore.fetchHouses()
-    // console.log("housesStore.fetchHouses", housesStore.houses);
   } catch (e) {
     error.value = e.message
     console.error(e)
@@ -67,8 +63,6 @@ onMounted(async () => {
       <SearchInput v-model="search" />
 
       <div class="toggle">
-        <!-- <button :class="{ active: sortBy === 'price' }" @click="sortBy = 'price'">Price</button>
-        <button :class="{ active: sortBy === 'size' }" @click="sortBy = 'size'">Size</button> -->
         <SortButton label="Price" value="price" v-model="sortBy" />
         <SortButton label="Size" value="size" v-model="sortBy" />
       </div>
@@ -131,19 +125,6 @@ onMounted(async () => {
   border-radius: 6px;
   overflow: hidden;
 }
-/* 
-.toggle button {
-  padding: 0.5rem 3rem;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-weight: 500;
-  color: #fff;
-}
-
-.toggle .active {
-  background: var(--color-element-primary);
-} */
 
 /* Cards list*/
 .list {
@@ -173,7 +154,7 @@ onMounted(async () => {
   color: var(--color-text-secondary);
 }
 
-@media screen and (max-width: 431px) {
+@media screen and (max-width: 800px) {
   .houses-page {
     width: 100%;
   }

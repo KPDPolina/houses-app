@@ -36,7 +36,6 @@
               class="icon icon-active"
             />
           </router-link>
-          <!-- <router-link to="/houses/create">Create new</router-link> -->
         </nav>
       </div>
     </header>
@@ -69,7 +68,7 @@ nav a:hover {
 }
 
 /* ===== MOBILE ===== */
-@media (max-width: 431px) {
+@media (max-width: 800px) {
   main {
     padding-bottom: 150px;
   }
@@ -105,17 +104,11 @@ nav a:hover {
     font-size: 14px;
   }
 
-  /* nav a.router-link-active img.icon:active{
-    display: block;
-    height: 100%;
-  } */
-
   .houses-text,
   .about-text {
     display: none;
   }
 
-  /* показываем обычную иконку */
   .icon {
     height: 40px;
   }
@@ -127,11 +120,6 @@ nav a:hover {
   .icon-default {
     display: block;
   }
-
-  /* АКТИВНАЯ ССЫЛКА
-  .router-link-active {
-    background: var(--color-element-primary);
-  } */
 
   .router-link-active .icon-default {
     display: none;

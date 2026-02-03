@@ -123,7 +123,7 @@ const updateHouse = async () => {
   flex-direction: column;
 }
 
-@media screen and (max-width: 431px) {
+@media screen and (max-width: 800px) {
   .edit-page {
     width: 100vw;
     margin-right: 0;

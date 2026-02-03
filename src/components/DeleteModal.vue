@@ -1,6 +1,4 @@
 <script setup>
-// import {ref} from "vue"
-
 const props = defineProps({
   showDeleteModal: {
     type: Boolean,
@@ -86,7 +84,7 @@ const onConfirmDelete = () => {
   background-color: var(--color-element-secondary);
 }
 
-@media screen and (max-width: 431px) {
+@media screen and (max-width: 800px) {
   .modal {
     width: 90vw;
     font-size: 13px;

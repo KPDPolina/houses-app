@@ -16,7 +16,7 @@ const form = ref({
   size: '',
   streetName: '',
   houseNumber: '',
-  numberAddition: null,
+  numberAddition: '',
   zip: '',
   city: '',
   constructionYear: '',
@@ -28,8 +28,8 @@ const onImageSelected = (file) => {
 }
 
 const createHouse = async () => {
-  console.log("image.value", image.value)
-  
+  console.log('image.value', image.value)
+
   const formData = new FormData()
   const formImg = new FormData()
   Object.entries(form.value).forEach(([key, value]) => formData.append(key, value))
@@ -106,7 +106,7 @@ const createHouse = async () => {
   z-index: -1;
 }
 
-@media screen and (max-width: 431px) {
+@media screen and (max-width: 800px) {
   .create-page {
     width: 100vw;
     margin-right: 0;

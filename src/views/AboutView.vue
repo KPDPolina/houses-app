@@ -63,7 +63,7 @@
   height: 4rem;
 }
 
-@media (max-width: 431px) {
+@media (max-width: 800px) {
   .about-page {
     padding-bottom: 150px;
     padding: 1rem 2rem 0 2rem;

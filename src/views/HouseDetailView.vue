@@ -62,7 +62,6 @@ const recommendedHouses = computed(() => {
         Math.abs(h.size - house.value.size) <= 20)
     )
   })
-  // .slice(0, 4)
 })
 
 const goToEdits = () => {
@@ -129,7 +128,6 @@ const deleteHouseConfirmed = async () => {
             {{ house.location.street }} {{ house.location.houseNumber }}
             {{ house.location.houseNumberAddition }}
           </h2>
-          <!-- <button v-if="house.madeByMe" @click.stop="deleteMyHouse">X</button> -->
           <div class="detail-actions">
             <img
               class="my-house-actions"
@@ -311,7 +309,11 @@ const deleteHouseConfirmed = async () => {
   font-size: 1rem;
 }
 
-@media (max-width: 431px) {
+@media (max-width: 800px) {
+  .main-img {
+    width: 100dvw;
+  }
+
   .houses-page {
     padding-bottom: 150px;
     padding: 1rem 1.5rem 0 1.5rem;
@@ -338,6 +340,7 @@ const deleteHouseConfirmed = async () => {
   .detail {
     background-color: white;
     margin-top: -2rem;
+    padding: 0.8rem 1.3rem;
     z-index: 100;
     position: relative;
     border-radius: 30px;

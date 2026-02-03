@@ -1,52 +1,55 @@
 <script setup>
-    
-    import { ref } from 'vue'
+import { ref } from 'vue'
 
-    const props = defineProps({
-    label: {
-        type: String,
-    },
-    error: {
-        type: String,
-    },
-    placeholder: {
-        type: String,
-    },
-    maxlength: {
-        type: String,
-    },
-    modelValue: {
-        type: String,
-    },
-    })
+const props = defineProps({
+  label: {
+    type: String,
+  },
+  error: {
+    type: String,
+  },
+  placeholder: {
+    type: String,
+  },
+  maxlength: {
+    type: String,
+  },
+  modelValue: {
+    type: String,
+  },
+})
 
-    const emit = defineEmits(['update:modelValue', "blur"])
+const emit = defineEmits(['update:modelValue', 'blur'])
 
-    const descriptionRef = ref(null)
+const descriptionRef = ref(null)
 
-    const autoResizeTextarea = () => {
-    const el = descriptionRef.value
-    if (!el) return
+const autoResizeTextarea = () => {
+  const el = descriptionRef.value
+  if (!el) return
 
-    el.style.height = 'auto'
-    el.style.height = el.scrollHeight + 'px'
-    }
-
+  el.style.height = 'auto'
+  el.style.height = el.scrollHeight + 'px'
+}
 </script>
 
 <template>
-    <label>{{ props.label }}</label>
-    <textarea
-      ref="descriptionRef"
-      :value="props.modelValue"
-      :placeholder="props.placeholder"
-      :maxlength="maxlength"
-      required
-      @input="event => {emit('update:modelValue', event.target.value); autoResizeTextarea()}" 
-      :class="{ error: props.error }"
-      @blur="emit('blur')"
-    ></textarea>
-    <p v-if="error" class="error-text">{{ props.error }}</p>
+  <label>{{ props.label }}</label>
+  <textarea
+    ref="descriptionRef"
+    :value="props.modelValue"
+    :placeholder="props.placeholder"
+    :maxlength="maxlength"
+    required
+    @input="
+      (event) => {
+        emit('update:modelValue', event.target.value)
+        autoResizeTextarea()
+      }
+    "
+    :class="{ error: props.error }"
+    @blur="emit('blur')"
+  ></textarea>
+  <p v-if="error" class="error-text">{{ props.error }}</p>
 </template>
 
 <style scoped>
@@ -56,7 +59,7 @@ label {
   margin-bottom: 0.5rem;
   font-size: 16px;
 }
-textarea { 
+textarea {
   background-color: var(--color-element-background-2);
   font-family: var(--font-primary);
   font-size: 14px;
@@ -69,10 +72,10 @@ textarea:focus-visible {
   outline-width: 0px;
   box-shadow: 0px 2px 5px var(--color-element-tertiary-dark);
 }
-textarea.error{
+textarea.error {
   border: 2px solid var(--color-element-primary);
 }
-textarea.error::placeholder{
+textarea.error::placeholder {
   color: var(--color-element-primary);
 }
 form textarea {
@@ -90,5 +93,4 @@ form textarea {
   font-size: 12px;
   margin-top: 4px;
 }
-
 </style>

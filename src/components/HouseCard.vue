@@ -40,7 +40,6 @@ const deleteHouseConfirmed = async () => {
     housesStore.loaded = false
     await housesStore.fetchHouses()
     showDeleteModal.value = false // close modal
-    // router.push({ name: 'Home' })
   } catch (error) {
     console.error('Error during deleting:', error)
   }
@@ -158,7 +157,7 @@ const deleteHouseConfirmed = async () => {
   cursor: pointer;
 }
 
-@media (max-width: 431px) {
+@media (max-width: 800px) {
   .preview {
     width: 7rem;
     height: 7rem;

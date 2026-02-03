@@ -1,10 +1,9 @@
 <script setup>
-// import '../assets/base.css'
 import FormImage from './formsComponents/FormImage.vue'
 import FormInput from './formsComponents/FormInput.vue'
 import FormSelect from './formsComponents/FormSelect.vue'
 import FormTextarea from './formsComponents/FormTextarea.vue'
-import { reactive, watch, ref, nextTick, computed } from 'vue'
+import { reactive, watch, ref, computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -22,23 +21,11 @@ const emit = defineEmits(['update:modelValue', 'submit', 'image-selected'])
 // form copy
 const form = reactive({ ...props.modelValue })
 
-const descriptionRef = ref(null)
-
-const autoResizeTextarea = () => {
-  const el = descriptionRef.value
-  if (!el) return
-
-  el.style.height = 'auto'
-  el.style.height = el.scrollHeight + 'px'
-}
-
 // if new data came from outside (edit)
 watch(
   () => props.modelValue,
   async (newValue) => {
     Object.assign(form, newValue)
-    await nextTick()
-    autoResizeTextarea()
   },
   { deep: true },
 )
@@ -58,30 +45,11 @@ const onSubmit = () => {
   }
 }
 
-// const fileInput = ref(null)
-const localPreview = ref(props.preview || null) 
-
-watch( 
-  () => props.preview, 
-  (newVal) => { localPreview.value = newVal } 
-)
 const localImage = ref(null)
 
 watch(localImage, (file) => {
   emit('image-selected', file)
 })
-// const triggerFileInput = () => {
-//   fileInput.value.click()
-// }
-
-// const onFileChange = (event) => {
-//   const file = event.target.files[0]
-//   if (!file) return
-
-//   emit('image-selected', file)
-
-//   preview.value = URL.createObjectURL(file)
-// }
 
 const errors = reactive({
   streetName: '',
@@ -124,21 +92,15 @@ const isFormValid = computed(() => {
     form.bathrooms &&
     form.constructionYear &&
     form.description &&
-    ((form.hasGarage === "true") || (form.hasGarage === "false") || (form.hasGarage === true) || (form.hasGarage === false))
+    form.hasGarage !== '' &&
+    form.hasGarage !== null
   )
 })
-
-  console.log( "isFormValid", !!isFormValid.value, "hasImage", form.image || localImage.value, 
-  "form.hasGarage", form.hasGarage,
-"form.hasGarage == true)", form.hasGarage == "true",
-"(form.hasGarage == false)", form.hasGarage == "false", "sss", (form.hasGarage === true) || (form.hasGarage === false) );
-
-
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
-    <FormInput 
+    <FormInput
       label="Street name*"
       v-model="form.streetName"
       :error="errors.streetName"
@@ -148,7 +110,7 @@ const isFormValid = computed(() => {
 
     <div class="area number-addition">
       <div class="form-group">
-        <FormInput 
+        <FormInput
           label="House number*"
           type="number"
           v-model="form.houseNumber"
@@ -159,7 +121,7 @@ const isFormValid = computed(() => {
       </div>
 
       <div class="form-group">
-        <FormInput 
+        <FormInput
           label="Addition*"
           v-model="form.numberAddition"
           :error="errors.numberAddition"
@@ -168,14 +130,14 @@ const isFormValid = computed(() => {
       </div>
     </div>
 
-    <FormInput 
+    <FormInput
       label="Post code*"
       v-model="form.zip"
       :error="errors.zip"
       placeholder="e.g. 1000 AA"
       @blur="validateField('zip')"
     />
-    <FormInput 
+    <FormInput
       label="City*"
       v-model="form.city"
       :error="errors.city"
@@ -183,14 +145,9 @@ const isFormValid = computed(() => {
       @blur="validateField('city')"
     />
 
-    <FormImage
-      label="Upload picture (PNG or JPG)*"
-      v-model="localImage"
-      :preview="form.image"
-      @blur="validateField('localImage')"
-    />
+    <FormImage label="Upload picture (PNG or JPG)*" v-model="localImage" :preview="form.image" />
 
-    <FormInput 
+    <FormInput
       label="Price*"
       type="number"
       v-model="form.price"
@@ -201,7 +158,7 @@ const isFormValid = computed(() => {
 
     <div class="area size-garage">
       <div class="form-group">
-        <FormInput 
+        <FormInput
           label="Size*"
           type="number"
           v-model="form.size"
@@ -215,8 +172,10 @@ const isFormValid = computed(() => {
         <FormSelect
           label="Garage*"
           v-model="form.hasGarage"
-          :options="[{label: 'Yes', value: true}, 
-                    {label: 'No', value: false}]"
+          :options="[
+            { label: 'Yes', value: true },
+            { label: 'No', value: false },
+          ]"
           :error="errors.hasGarage"
           @blur="validateField('hasGarage')"
         />
@@ -225,7 +184,7 @@ const isFormValid = computed(() => {
 
     <div class="area bedrooms-bathrooms">
       <div class="form-group">
-        <FormInput 
+        <FormInput
           label="Bedrooms*"
           type="number"
           v-model="form.bedrooms"
@@ -236,7 +195,7 @@ const isFormValid = computed(() => {
       </div>
 
       <div class="form-group">
-        <FormInput 
+        <FormInput
           label="Bathrooms*"
           type="number"
           v-model="form.bathrooms"
@@ -247,7 +206,7 @@ const isFormValid = computed(() => {
       </div>
     </div>
 
-    <FormInput 
+    <FormInput
       label="Construction year*"
       type="number"
       v-model="form.constructionYear"
@@ -255,7 +214,6 @@ const isFormValid = computed(() => {
       placeholder="e.g. 1990"
       @blur="validateField('constructionYear')"
     />
-
 
     <FormTextarea
       label="Description*"
@@ -412,7 +370,7 @@ select.error::placeholder {
   margin-top: 4px;
 }
 
-@media screen and (max-width: 431px) {
+@media screen and (max-width: 800px) {
   form {
     width: 100vw;
     padding: 0 2.5rem;

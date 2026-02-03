@@ -1,81 +1,75 @@
 <script setup>
-    
-    import { ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 
-    const props = defineProps({
-    label: {
-        type: String,
-    },
-    error: {
-        type: String,
-    },
-    placeholder: {
-        type: String,
-    },
-    preview: {
-        type: String,
-        default: null,
-    },
-    modelValue: {
-        type: File,
-        default: null,
-    },
-    })
+const props = defineProps({
+  label: {
+    type: String,
+  },
+  error: {
+    type: String,
+  },
+  placeholder: {
+    type: String,
+  },
+  preview: {
+    type: String,
+    default: null,
+  },
+  modelValue: {
+    type: File,
+    default: null,
+  },
+})
 
-    const emit = defineEmits(['update:modelValue', "blur"])
+const emit = defineEmits(['update:modelValue', 'blur'])
 
-    const fileInput = ref(null)
-    const localPreview = ref(props.preview || null)
+const fileInput = ref(null)
+const localPreview = ref(props.preview || null)
 
-    watch(
-        () => props.preview,
-        (newVal) => {
-            localPreview.value = newVal
-        },
-        { immediate: true }
-    )
+watch(
+  () => props.preview,
+  (newVal) => {
+    localPreview.value = newVal
+  },
+  { immediate: true },
+)
 
-    const triggerFileInput = () => {
-        fileInput.value.click()
-    }
+const triggerFileInput = () => {
+  fileInput.value.click()
+}
 
-    const onFileChange = (event) => {
-        const file = event.target.files[0]
-        if (!file) return
+const onFileChange = (event) => {
+  const file = event.target.files[0]
+  if (!file) return
 
-        emit('update:modelValue', file)
+  emit('update:modelValue', file)
 
-
-        if (localPreview.value) {
-            URL.revokeObjectURL(localPreview.value)
-        }
-        localPreview.value = URL.createObjectURL(file)
-    }
-
+  if (localPreview.value) {
+    URL.revokeObjectURL(localPreview.value)
+  }
+  localPreview.value = URL.createObjectURL(file)
+}
 </script>
 
 <template>
+  <label>{{ props.label }}</label>
 
-    
-    <label>{{ props.label }}</label>
-    <!-- <input id="image" @change="onFileChange" type="file" accept="image/png, image/jpeg"/> -->
-    <div class="image-upload" @click="triggerFileInput">
-      <input
-        ref="fileInput"
-        type="file"
-        accept="image/png, image/jpeg"
-        class="hidden-input"
-        @change="onFileChange($event)"
-        @blur="emit('blur')"
-      />
+  <div class="image-upload" @click="triggerFileInput">
+    <input
+      ref="fileInput"
+      type="file"
+      accept="image/png, image/jpeg"
+      class="hidden-input"
+      @change="onFileChange($event)"
+      @blur="emit('blur')"
+    />
 
-      <div v-if="!localPreview" class="img-placeholder">
-        <img class="img-plus" src="../../assets/ic_plus_grey@3x.png" />
-      </div>
-
-      <img v-else :src="localPreview" alt="Preview" class="preview" />
+    <div v-if="!localPreview" class="img-placeholder">
+      <img class="img-plus" src="../../assets/ic_plus_grey@3x.png" />
     </div>
 
+    <img v-else :src="localPreview" alt="Preview" class="preview" />
+  </div>
 </template>
 
 <style scoped>
@@ -129,5 +123,4 @@ label {
   font-size: 12px;
   margin-top: 4px;
 }
-
 </style>

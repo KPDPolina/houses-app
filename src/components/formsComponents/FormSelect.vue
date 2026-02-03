@@ -14,27 +14,24 @@ const props = defineProps({
   },
 })
 
-  const emit = defineEmits(['update:modelValue', "blur"])
+const emit = defineEmits(['update:modelValue', 'blur'])
 </script>
 
 <template>
-    <label>{{ props.label }}</label>
-    <select 
-        :value="props.modelValue" 
-        @change="emit('update:modelValue', $event.target.value)" 
-        @blur="emit('blur')"
-        :class="{ error: props.error }">
+  <label>{{ props.label }}</label>
+  <select
+    :value="props.modelValue"
+    @change="emit('update:modelValue', $event.target.value)"
+    @blur="emit('blur')"
+    :class="{ error: props.error }"
+  >
+    <option disabled value="">Select</option>
 
-        <option disabled value="" >Select</option>
-        
-        <option v-for="opt in props.options" 
-            :key="opt.value" 
-            :value="opt.value">
-            {{ opt.label }}
-        </option>
-
-    </select>
-    <p v-if="error" class="error-text">{{ props.error }}</p>
+    <option v-for="opt in props.options" :key="opt.value" :value="opt.value">
+      {{ opt.label }}
+    </option>
+  </select>
+  <p v-if="error" class="error-text">{{ props.error }}</p>
 </template>
 
 <style scoped>
@@ -44,7 +41,7 @@ label {
   margin-bottom: 0.5rem;
   font-size: 16px;
 }
-select { 
+select {
   background-color: var(--color-element-background-2);
   font-family: var(--font-primary);
   font-size: 14px;
@@ -57,10 +54,10 @@ select:focus-visible {
   outline-width: 0px;
   box-shadow: 0px 2px 5px var(--color-element-tertiary-dark);
 }
-select.error{
+select.error {
   border: 2px solid var(--color-element-primary);
 }
-select.error::placeholder{
+select.error::placeholder {
   color: var(--color-element-primary);
 }
 
@@ -71,5 +68,4 @@ select.error::placeholder{
   font-size: 12px;
   margin-top: 4px;
 }
-
 </style>

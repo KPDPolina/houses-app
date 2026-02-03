@@ -20,12 +20,11 @@ export const useHousesStore = defineStore('houses', {
         const data = await getHouses()
         this.houses = data
         this.loaded = true //mark that the cache is full
-        
       } catch (e) {
         this.error = e.message
       } finally {
         this.loading = false
-        console.log("this.houses", this.houses);
+        console.log('this.houses', this.houses)
       }
     },
   },
