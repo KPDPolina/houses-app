@@ -3,10 +3,12 @@ import { ref, onMounted, computed } from 'vue'
 import HouseCard from '@/components/HouseCard.vue'
 import SearchInput from '@/components/SearchInput.vue'
 import SortButton from '@/components/SortButton.vue'
+import FilterGarage from '@/components/FilterGarage.vue'
 import { useHousesStore } from '@/stores/houses'
 import '../assets/base.css'
 
 const search = ref('')
+const onlyWithGarage = ref(false)
 const sortBy = ref('price') // Current sort option ('price' or 'size')
 const loading = ref(true) // Loading state while fetching houses
 const error = ref(null)
@@ -17,8 +19,12 @@ const housesStore = useHousesStore()
  */
 const preraredHouses = computed(() => {
   let searchHouses = []
+  let filterHouses = []
+
+  console.log('onlyWithGarage.value', onlyWithGarage.value)
+
   if (search.value.length === 0) searchHouses = [...housesStore.houses]
-  else
+  else {
     searchHouses = housesStore.houses.filter((element) => {
       return (
         element.location.city.toLowerCase().includes(search.value.toLowerCase()) ||
@@ -28,14 +34,30 @@ const preraredHouses = computed(() => {
         element.size.toString().startsWith(search.value.toLowerCase())
       )
     })
-  return searchHouses.sort((a, b) => {
-    if (sortBy.value === 'price') {
-      return a.price - b.price //sorted by increasing price
-    } else if (sortBy.value === 'size') {
-      return a.size - b.size //sorted by increasing size
-    }
-    return 0
-  })
+  }
+
+  if (onlyWithGarage.value) {
+    filterHouses = searchHouses.filter((element) => {
+      return element.hasGarage === true
+    })
+    return filterHouses.sort((a, b) => {
+      if (sortBy.value === 'price') {
+        return a.price - b.price //sorted by increasing price
+      } else if (sortBy.value === 'size') {
+        return a.size - b.size //sorted by increasing size
+      }
+      return 0
+    })
+  } else {
+    return searchHouses.sort((a, b) => {
+      if (sortBy.value === 'price') {
+        return a.price - b.price //sorted by increasing price
+      } else if (sortBy.value === 'size') {
+        return a.size - b.size //sorted by increasing size
+      }
+      return 0
+    })
+  }
 })
 
 /**
@@ -69,11 +91,15 @@ onMounted(async () => {
     <div class="controls">
       <SearchInput v-model="search" />
 
+      <FilterGarage class="garage desktop" label="Garage" v-model="onlyWithGarage" />
+
       <div class="toggle">
         <SortButton label="Price" value="price" v-model="sortBy" />
         <SortButton label="Size" value="size" v-model="sortBy" />
       </div>
     </div>
+
+    <FilterGarage class="garage mobile" label="Garage" v-model="onlyWithGarage" />
 
     <p v-if="loading">Loading...</p>
     <p v-else-if="error">{{ error }}</p>
@@ -131,6 +157,25 @@ onMounted(async () => {
   background: var(--color-element-tertiary-dark);
   border-radius: 6px;
   overflow: hidden;
+}
+
+.garage {
+  display: flex;
+}
+
+.garage.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 1100px) {
+  .garage.mobile {
+    display: flex;
+    margin-bottom: 1rem;
+    margin-top: -1rem;
+  }
+  .garage.desktop {
+    display: none;
+  }
 }
 
 /* Cards list*/
